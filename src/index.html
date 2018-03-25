@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html style="overflow: hidden;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+    <title>The Mini Hollow Knight</title>
+</head>
+
+<body>
+<canvas id="myCanvas" style="z-index: 1"></canvas>
+<menu id="menu">
+    <h1>Maze Runner</h1>
+    <div>
+        <button class="menubutton" id="play">Play</button>
+    </div>
+</menu>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+        crossorigin="anonymous"></script>
+
+<!-- Game script, might want to set into one js file later. -->
+<script src="js/Constants.js"></script>
+<script src="js/Utils.js"></script>
+
+<script src="js/game/MazeRunner.js"></script>
+
+<script src="js/engine/UpdateManager.js"></script>
+<script src="js/engine/RenderManager.js"></script>
+<script src="js/engine/GameManager.js"></script>
+<script src="js/Main.js"></script>
+</body>
+
+</html>
