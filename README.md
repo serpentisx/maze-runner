@@ -1,7 +1,7 @@
 # Utopia
 
-Final project in **Computer Game Programming (TÖL308G)** at University of Iceland.  <br />
-**Play live at: &nbsp;  https://serpentisx.github.io/utopia/src/index.html**
+Project in **Computer Graphics (TÖL203M)** at University of Iceland.  <br />
+**Play live at: &nbsp;  https://serpentisx.github.io/maze-runner/src/index.html**
 
 ***
 
@@ -9,7 +9,6 @@ Final project in **Computer Game Programming (TÖL308G)** at University of Icela
 
 \- [Alexandra Mjöll Young](https://github.com/flexayoung) <br>
 \- [Huy Van Nguyen](https://github.com/serpentisx/) <br>
-\- [Nu Phan Quynh Do](https://github.com/mimiqkz/) <br>
 
 <br>
 
@@ -19,11 +18,11 @@ Final project in **Computer Game Programming (TÖL308G)** at University of Icela
 
 To run the project locally, first clone this repository...
 ```sh
-$ git clone https://github.com/serpentisx/utopia.git
+$ git clone https://github.com/serpentisx/maze-runner.git
 ```
 ... navigate to the project directory and open _index.html_ file
 
 ```sh
-$ cd utopia\
+$ cd maze-runner\
 $ src\index.html
 ```
