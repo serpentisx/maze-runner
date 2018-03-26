@@ -1,4 +1,4 @@
-# Utopia
+# Maze Runner
 
 Project in **Computer Graphics (TÖL203M)** at University of Iceland.  <br />
 **Play live at: &nbsp;  https://serpentisx.github.io/maze-runner/src/index.html**
