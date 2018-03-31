@@ -1,7 +1,7 @@
 class MazeRunner {
 
   constructor() {
-   
+   const maze = new Maze('maze.txt');
   }
 
   update(du) {
