@@ -1,8 +1,6 @@
 /**Some constants**/
-
-//For the canvas and ctx
-const canvas = document.getElementById("myCanvas");
-const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("gl-canvas");
+const gl = WebGLUtils.setupWebGL(canvas);
 
 //For keys
 const KEYS = {

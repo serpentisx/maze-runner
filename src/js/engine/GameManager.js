@@ -7,10 +7,10 @@ window.requestAnimationFrame = window.requestAnimationFrame ||
 
 class GameManager {
 
-  constructor(game) {
-    this.ctx = ctx;
-    this.renderManager = new RenderManager(game.render);
-    this.updateManager = new UpdateManager(game.update);
+  constructor(game) {    
+    this.gl = gl;
+    this.renderManager = new RenderManager(game.render.bind(game));
+    this.updateManager = new UpdateManager(game.update.bind(game));
 
     this.isGameOver = false;
     this.frameTime_ms = null;
@@ -38,7 +38,7 @@ class GameManager {
     }
 
     this.updateManager.update(dt);
-    this.renderManager.render(this.ctx);
+    this.renderManager.render(this.gl);
   }
 
   gameOver() {

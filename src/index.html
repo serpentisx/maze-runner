@@ -10,21 +10,19 @@
     <title>The Maze Runner | WebGL Game</title>
 </head>
 <script id="vertex-shader" type="x-shader/x-vertex">
+    attribute  vec4 vPosition;
+    attribute  vec2 vTexCoord;
 
-attribute  vec4 vPosition;
-attribute  vec2 vTexCoord;
+    varying vec2 fTexCoord;
 
-//varying vec4 fColor;
-varying vec2 fTexCoord;
+    uniform mat4 projection;
+    uniform mat4 modelview;
 
-uniform mat4 projection;
-uniform mat4 modelview;
-
-void main() 
-{
-    fTexCoord = vTexCoord;
-    gl_Position = projection * modelview * vPosition;   
-} 
+    void main() 
+    {
+        fTexCoord = vTexCoord;
+        gl_Position = projection * modelview * vPosition;   
+    } 
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
@@ -41,35 +39,37 @@ void main()
         gl_FragColor = texture2D( texture, fTexCoord );
     }
 </script>
+<script type="text/javascript" src="shaders/webgl-utils.js"></script>
+<script type="text/javascript" src="shaders/initShaders.js"></script>
+<script type="text/javascript" src="shaders/MV.js"></script>
 
 <body>
-<canvas id="myCanvas" style="z-index: 1"></canvas>
-<menu id="menu">
+<canvas id="gl-canvas" width="920" height="700">
+    Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<!-- <menu id="menu">
     <h1>Maze Runner</h1>
     <div>
         <button class="menubutton" id="play">Play</button>
     </div>
-</menu>
+</menu> -->
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-        crossorigin="anonymous"></script>
+<img id="VeggImage" src="assets/brick29.jpg" hidden></img>
+<img id="GolfImage" src="assets/WoodPlanks.jpg" hidden></img>
+<img id="LoftImage" src="assets/cloud07.jpg" hidden></img>
 
-<!-- Game script, might want to set into one js file later. -->
-<script type="text/javascript" src="../webgl-shaders/webgl-utils.js"></script>
-<script type="text/javascript" src="../webgl-shaders/initShaders.js"></script>
-<script type="text/javascript" src="../webgl-shaders/MV.js"></script>
+<!-- Game scripts -->
 <script src="js/Constants.js"></script>
 <script src="js/Utils.js"></script>
 
 <script src="js/game/MazeRunner.js"></script>
 <script src="js/model/Maze.js"></script>
+<script src="js/model/User.js"></script>
+
 <script src="js/engine/UpdateManager.js"></script>
 <script src="js/engine/RenderManager.js"></script>
 <script src="js/engine/GameManager.js"></script>
 <script src="js/Main.js"></script>
+
 </body>
-
-
-
 </html>
