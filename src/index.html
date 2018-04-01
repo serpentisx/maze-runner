@@ -7,8 +7,40 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
-    <title>The Mini Hollow Knight</title>
+    <title>The Maze Runner | WebGL Game</title>
 </head>
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec2 vTexCoord;
+
+//varying vec4 fColor;
+varying vec2 fTexCoord;
+
+uniform mat4 projection;
+uniform mat4 modelview;
+
+void main() 
+{
+    fTexCoord = vTexCoord;
+    gl_Position = projection * modelview * vPosition;   
+} 
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+    precision mediump float;
+
+    varying vec2 fTexCoord;
+
+    uniform sampler2D texture;
+
+    void
+    main()
+    {
+        gl_FragColor = texture2D( texture, fTexCoord );
+    }
+</script>
 
 <body>
 <canvas id="myCanvas" style="z-index: 1"></canvas>
@@ -24,6 +56,9 @@
         crossorigin="anonymous"></script>
 
 <!-- Game script, might want to set into one js file later. -->
+<script type="text/javascript" src="../webgl-shaders/webgl-utils.js"></script>
+<script type="text/javascript" src="../webgl-shaders/initShaders.js"></script>
+<script type="text/javascript" src="../webgl-shaders/MV.js"></script>
 <script src="js/Constants.js"></script>
 <script src="js/Utils.js"></script>
 
@@ -34,5 +69,7 @@
 <script src="js/engine/GameManager.js"></script>
 <script src="js/Main.js"></script>
 </body>
+
+
 
 </html>
