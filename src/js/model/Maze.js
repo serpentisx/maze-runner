@@ -29,53 +29,18 @@ class Maze {
   initCoords(wallLength, wallheight) {
     const mult = wallLength * 2;
 
-    this.vertices = [
-      vec4(0, 0.0, 0.0, 1.0),
-      vec4(wallLength, 0.0, 0.0, 1.0),
-      vec4(wallLength, wallheight, 0.0, 1.0),
-      vec4(wallLength, wallheight, 0.0, 1.0),
-      vec4(0, wallheight, 0.0, 1.0),
-      vec4(0, 0.0, 0.0, 1.0),
-
-      vec4(0, 0.0, 0.0, 1.0),
-      vec4(wallLength*this.wallRatio, 0.0, 0.0, 1.0),
-      vec4(wallLength*this.wallRatio, wallheight, 0.0, 1.0),
-      vec4(wallLength*this.wallRatio, wallheight, 0.0, 1.0),
-      vec4(0, wallheight, 0.0, 1.0),
-      vec4(0, 0.0, 0.0, 1.0),
-
-      // Hnútar gólfsins (strax á eftir)
-      vec4(-5.0, 0.0, 10.0, 1.0),
-      vec4(5.0, 0.0, 10.0, 1.0),
-      vec4(5.0, 0.0, 0.0, 1.0),
-      vec4(5.0, 0.0, 0.0, 1.0),
-      vec4(-5.0, 0.0, 0.0, 1.0),
-      vec4(-5.0, 0.0, 10.0, 1.0)
-    ];
-
     this.texCoords = [
-      vec2(0.0, 0.0),
-      vec2(mult, 0.0),
-      vec2(mult, 1.0),
-      vec2(mult, 1.0),
-      vec2(0.0, 1.0),
-      vec2(0.0, 0.0),
-
-      vec2(0.0, 0.0),
-      vec2(mult * this.wallRatio, 0.0),
-      vec2(mult * this.wallRatio, 1.0),
-      vec2(mult * this.wallRatio, 1.0),
-      vec2(0.0, 1.0),
-      vec2(0.0, 0.0),
-      
-      // Mynsturhnit fyrir gólf
-      vec2(0.0, 0.0),
-      vec2(10.0, 0.0),
-      vec2(10.0, 10.0),
-      vec2(10.0, 10.0),
-      vec2(0.0, 10.0),
-      vec2(0.0, 0.0)
-    ];
+      this.generateWallTextureCoords(mult),
+      this.generateWallTextureCoords(mult * this.wallRatio),
+      this.generateGroundTextureCoords()
+    ].reduce((a, b) => a.concat(b), []);
+  
+    this.vertices = [
+      this.generateWallVertices(wallLength, wallheight),
+      this.generateWallVertices(wallLength * this.wallRatio, wallheight),
+      this.generateGroundVertices()
+    ].reduce((a, b) => a.concat(b), []);
+ 
   }
 
   generateWallVertices(wallLength, wallheight) {
@@ -100,6 +65,27 @@ class Maze {
     ];
   }
 
+  generateWallTextureCoords(mult) {
+    return [
+      vec2(0.0, 0.0),
+      vec2(mult, 0.0),
+      vec2(mult, 1.0),
+      vec2(mult, 1.0),
+      vec2(0.0, 1.0),
+      vec2(0.0, 0.0),
+    ];
+  }
+
+  generateGroundTextureCoords() {
+    return [
+      vec2(0.0, 0.0),
+      vec2(10.0, 0.0),
+      vec2(10.0, 10.0),
+      vec2(10.0, 10.0),
+      vec2(0.0, 10.0),
+      vec2(0.0, 0.0)
+    ];
+  }
 
   createTextures() {
     this.texVegg = generateTexture('VeggImage');
