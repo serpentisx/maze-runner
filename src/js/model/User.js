@@ -1,3 +1,9 @@
+var movement = false;
+var spinX = 0;
+var spinY = 0;
+var origX;
+var origY;
+
 class User {
 
     constructor() {
