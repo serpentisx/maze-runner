@@ -125,7 +125,7 @@ class Maze {
   drawVerticalWall(mv) {
     const mv0 = mv;
 
-    mv = mult(mv, translate(-this.wallLength/2, 0.0, -this.wallLength));
+    mv = mult(mv, translate(-this.wallLength/2, 0.0, -this.wallLength/2));
     mv = mult(mv, rotateY(-90.0));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
     gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
