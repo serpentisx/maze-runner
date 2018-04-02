@@ -3,6 +3,7 @@ class Maze {
   constructor() {
     this.wallLength = 1;
     this.wallHeight = 1;
+    this.wallRatio = 4/2;
     this.wallWidth = 0.02;
     this.offset = 1;
     this.numVertices = 6;
@@ -10,7 +11,7 @@ class Maze {
 
   init(mazeFile) {
     const fileLoc = `assets/${mazeFile}`;
-    // const fileLoc = `assets/test.txt`;
+     //const fileLoc = `assets/test.txt`;
     this.mazeArray = [];
 
     fetch(fileLoc)
@@ -35,6 +36,14 @@ class Maze {
       vec4(wallLength, wallheight, 0.0, 1.0),
       vec4(0, wallheight, 0.0, 1.0),
       vec4(0, 0.0, 0.0, 1.0),
+
+      vec4(0, 0.0, 0.0, 1.0),
+      vec4(wallLength*this.wallRatio, 0.0, 0.0, 1.0),
+      vec4(wallLength*this.wallRatio, wallheight, 0.0, 1.0),
+      vec4(wallLength*this.wallRatio, wallheight, 0.0, 1.0),
+      vec4(0, wallheight, 0.0, 1.0),
+      vec4(0, 0.0, 0.0, 1.0),
+
       // Hnútar gólfsins (strax á eftir)
       vec4(-5.0, 0.0, 10.0, 1.0),
       vec4(5.0, 0.0, 10.0, 1.0),
@@ -51,6 +60,14 @@ class Maze {
       vec2(mult, 1.0),
       vec2(0.0, 1.0),
       vec2(0.0, 0.0),
+
+      vec2(0.0, 0.0),
+      vec2(mult * this.wallRatio, 0.0),
+      vec2(mult * this.wallRatio, 1.0),
+      vec2(mult * this.wallRatio, 1.0),
+      vec2(0.0, 1.0),
+      vec2(0.0, 0.0),
+      
       // Mynsturhnit fyrir gólf
       vec2(0.0, 0.0),
       vec2(10.0, 0.0),
@@ -60,6 +77,29 @@ class Maze {
       vec2(0.0, 0.0)
     ];
   }
+
+  generateWallVertices(wallLength, wallheight) {
+    return [
+      vec4(0, 0.0, 0.0, 1.0),
+      vec4(wallLength, 0.0, 0.0, 1.0),
+      vec4(wallLength, wallheight, 0.0, 1.0),
+      vec4(wallLength, wallheight, 0.0, 1.0),
+      vec4(0, wallheight, 0.0, 1.0),
+      vec4(0, 0.0, 0.0, 1.0)
+    ];
+  }
+
+  generateGroundVertices() {
+    return [
+      vec4(-5.0, 0.0, 10.0, 1.0),
+      vec4(5.0, 0.0, 10.0, 1.0),
+      vec4(5.0, 0.0, 0.0, 1.0),
+      vec4(5.0, 0.0, 0.0, 1.0),
+      vec4(-5.0, 0.0, 0.0, 1.0),
+      vec4(-5.0, 0.0, 10.0, 1.0)
+    ];
+  }
+
 
   createTextures() {
     this.texVegg = generateTexture('VeggImage');
@@ -114,7 +154,7 @@ class Maze {
           mv = mult(mv, translate(this.wallLength, 0.0, 0.0));
         } else previousEmpty = false;
       }
-      mv = mult(mv0, translate(0.0, 0.0, this.wallLength / 2));
+      mv = mult(mv0, translate(0.0, 0.0, (this.wallLength * this.wallRatio) / 2));
       mv0 = mv;
     }
   }
@@ -143,17 +183,17 @@ class Maze {
   drawVerticalWall(mv) {
     const mv0 = mv;
 
-    mv = mult(mv, translate(0.0, 0.0, this.wallLength));
+    mv = mult(mv, translate(0.0, 0.0, this.wallLength*this.wallRatio));
     mv = mult(mv, rotateY(-90.0));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
-    gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
+    gl.drawArrays(gl.TRIANGLES, 6, this.numVertices);
 
-    return mult(mv0, translate(0.0, 0.0, 0.0));
+    return mv0;
   }
 
   drawGround(gl) {
     gl.bindTexture(gl.TEXTURE_2D, this.texGolf);
-    gl.drawArrays(gl.TRIANGLES, this.numVertices, this.numVertices);
+    gl.drawArrays(gl.TRIANGLES, 12, this.numVertices);
   }
 
   render(gl, mv) {
