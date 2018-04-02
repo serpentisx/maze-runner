@@ -1,6 +1,4 @@
 /**Some constants**/
-const canvas = document.getElementById("gl-canvas");
-const gl = WebGLUtils.setupWebGL(canvas);
 
 //For keys
 const KEYS = {
