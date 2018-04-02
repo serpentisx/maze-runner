@@ -1,7 +1,7 @@
 class Maze {
 
   constructor() {
-    this.wallLength = 2;
+    this.wallLength = 1;
     this.wallHeight = 1;
     this.wallWidth = 0.02;
     this.offset = 1;
@@ -9,14 +9,14 @@ class Maze {
   }
 
   init(mazeFile) {
-    // const fileLoc = `assets/${mazeFile}`;
-    const fileLoc = `assets/test.txt`;
+    const fileLoc = `assets/${mazeFile}`;
+    // const fileLoc = `assets/test.txt`;
     this.mazeArray = [];
 
     fetch(fileLoc)
       .then(res => res.text())
       .then(data => this.constructArray(data))
-      .then(() => {
+      .then(() => {        
         this.initCoords(this.wallLength, this.wallHeight);
         initVertices(this.vertices);
         initTextCoord(this.texCoords);
@@ -75,10 +75,18 @@ class Maze {
       for (let j = 0; j < line.length; j += 1) {
         const symbol = line[j];
         switch (symbol) {
-          case ' ': this.mazeArray[i].push('EMPTY');      break;
-          case '+': this.mazeArray[i].push('VERTEX');     break;
-          case '-': this.mazeArray[i].push('HORIZONTAL'); break;
-          case '|': this.mazeArray[i].push('VERTICAL');   break;
+          case ' ':
+            this.mazeArray[i].push('EMPTY');
+            break;
+          case '+':
+            this.mazeArray[i].push('VERTEX');
+            break;
+          case '-':
+            this.mazeArray[i].push('HORIZONTAL');
+            break;
+          case '|':
+            this.mazeArray[i].push('VERTICAL');
+            break;
         }
       }
     }
@@ -87,32 +95,42 @@ class Maze {
   drawMaze(gl, mv) {
     let mv0 = mv;
 
-    // gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
     gl.bindTexture(gl.TEXTURE_2D, this.texVegg);
-    // gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
 
     for (let i = 0; i < this.mazeArray.length; i++) {
+      let previousEmpty = false;
       for (let j = 0; j < this.mazeArray[i].length; j++) {
-        switch (this.mazeArray[i][j]) {
-          case 'HORIZONTAL':          
-            mv = this.drawHorizontalWall(mv);
-            break;
-          
-          case 'VERTICAL':
-            mv = this.drawVerticalWall(mv);
-            break;
-
-          case 'EMPTY':          
-            mv = mult(mv, translate(this.wallLength/2, 0.0, 0.0));
-            break;
-        
-          default:
-            break;
+        const cell = this.mazeArray[i][j];
+        if (cell === 'VERTEX') {
+          if (i + 1 < this.mazeArray.length) {
+            mv = this.checkVertex(mv, this.mazeArray[i + 1][j]);
+          }
+          if (j + 1 < this.mazeArray[i].length) {
+            mv = this.checkVertex(mv, this.mazeArray[i][j + 1]);
+          }
         }
+        if (!previousEmpty && cell === 'EMPTY') {
+          previousEmpty = true;
+          mv = mult(mv, translate(this.wallLength, 0.0, 0.0));
+        } else previousEmpty = false;
       }
       mv = mult(mv0, translate(0.0, 0.0, this.wallLength / 2));
       mv0 = mv;
     }
+  }
+
+  checkVertex(mv, cell) {
+    switch (cell) {
+      case 'HORIZONTAL':
+        mv = this.drawHorizontalWall(mv);
+        break;
+      case 'VERTICAL':
+        mv = this.drawVerticalWall(mv);
+        break;
+      default:
+        break;
+    }
+    return mv;
   }
 
   drawHorizontalWall(mv) {
@@ -125,7 +143,7 @@ class Maze {
   drawVerticalWall(mv) {
     const mv0 = mv;
 
-    mv = mult(mv, translate(-this.wallLength/2, 0.0, -this.wallLength));
+    mv = mult(mv, translate(0.0, 0.0, this.wallLength));
     mv = mult(mv, rotateY(-90.0));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
     gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
