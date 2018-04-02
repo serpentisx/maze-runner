@@ -1,7 +1,7 @@
 class Maze {
 
   constructor() {
-    this.wallLength = 5;
+    this.wallLength = 2;
     this.wallHeight = 1;
     this.wallWidth = 0.02;
     this.offset = 1;
@@ -29,12 +29,12 @@ class Maze {
     const mult = wallLength * 2;
 
     this.vertices = [
-      vec4(-wallLength, 0.0, 0.0, 1.0),
+      vec4(0, 0.0, 0.0, 1.0),
       vec4(wallLength, 0.0, 0.0, 1.0),
       vec4(wallLength, wallheight, 0.0, 1.0),
       vec4(wallLength, wallheight, 0.0, 1.0),
-      vec4(-wallLength, wallheight, 0.0, 1.0),
-      vec4(-wallLength, 0.0, 0.0, 1.0),
+      vec4(0, wallheight, 0.0, 1.0),
+      vec4(0, 0.0, 0.0, 1.0),
       // Hnútar gólfsins (strax á eftir)
       vec4(-5.0, 0.0, 10.0, 1.0),
       vec4(5.0, 0.0, 10.0, 1.0),
@@ -87,14 +87,14 @@ class Maze {
   drawMaze(gl, mv) {
     let mv0 = mv;
 
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
+    // gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
     gl.bindTexture(gl.TEXTURE_2D, this.texVegg);
-    gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
+    // gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
 
     for (let i = 0; i < this.mazeArray.length; i++) {
       for (let j = 0; j < this.mazeArray[i].length; j++) {
         switch (this.mazeArray[i][j]) {
-          case 'HORIZONTAL':
+          case 'HORIZONTAL':          
             mv = this.drawHorizontalWall(mv);
             break;
           
@@ -102,8 +102,8 @@ class Maze {
             mv = this.drawVerticalWall(mv);
             break;
 
-          case 'EMPTY':
-            mv = mult(mv, translate(this.wallLength  / 2, 0.0, 0.0));
+          case 'EMPTY':          
+            mv = mult(mv, translate(this.wallLength/2, 0.0, 0.0));
             break;
         
           default:
