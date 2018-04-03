@@ -1,17 +1,22 @@
 class Maze {
 
   constructor() {
+    this.wallCoords = [];
+    this.mvs = [];
+
     this.wallLength = 1;
     this.wallHeight = 1;
     this.wallRatio = 4 / 2;
-    this.wallWidth = 0.1;
+    this.wallWidth = 0.3;
     this.offset = 1;
     this.numVertices = 6;
+
+    this.hasLoaded = false;
   }
 
-  init(mazeFile) {
-    const fileLoc = `assets/${mazeFile}`;
-    //const fileLoc = 'assets/test.txt';
+  init(mazeFile, mv) {
+    //const fileLoc = `assets/${mazeFile}`;
+    const fileLoc = 'assets/test.txt';
     this.mazeArray = [];
 
     fetch(fileLoc)
@@ -21,9 +26,37 @@ class Maze {
         this.initCoords(this.wallLength, this.wallHeight);
         initVertices(this.vertices);
         initTextCoord(this.texCoords);
-
+        this.drawMaze(gl, mv, true);
+        this.initXYZ(this.mvs);
         this.createTextures();
+
+        this.hasLoaded = true;
       });
+  }
+
+  initXYZ(mvs) {
+    mvs.forEach((mv) => {
+
+      // mv contains the transformation matrix prior to transform
+      // so if mv is multiplied with the original vertices matrix
+      // we would technically get its coordinate (given no calculation error in matrix-multiplication)
+
+      // only checking for horizontal wall here
+      const mult = this.drawHorizontalWall(mv).originalMv;
+      const vertices = this.generateWallVertices(this.wallLength, this.wallHeight);
+
+      const mat = Utils.multiplyMatrices(vertices, mult);
+
+      const u = mat[0][3];
+      const v = mat[1][3];
+
+       // only checking for horizontal wall here
+      const c1 = [mat[0][0] / u, mat[0][2] / u]; // upper left-corner // not 100% sure if it's always the case
+      const c2 = [mat[1][0] / v, mat[1][2] / v]; 
+      const c4 = [c2[0], c2[1] + this.wallWidth]; // down right-corner, 
+
+      this.wallCoords.push([c1, c4]);
+    });
   }
 
   initCoords(wallLength, wallheight) {
@@ -92,7 +125,6 @@ class Maze {
   createTextures() {
     this.texVegg = generateTexture('VeggImage');
     this.texGolf = generateTexture('GolfImage');
-    this.texLoft = generateTexture('LoftImage');
   }
 
   constructArray(textFile) {
@@ -120,7 +152,7 @@ class Maze {
     }
   }
 
-  drawMaze(gl, mv) {
+  drawMaze(gl, mv, init) {
     let mv0 = mv;
 
     gl.bindTexture(gl.TEXTURE_2D, this.texVegg);
@@ -132,9 +164,11 @@ class Maze {
         if (cell === 'VERTEX') {
           if (i + 1 < this.mazeArray.length) {
             mv = this.checkVertex(mv, this.mazeArray[i + 1][j]);
+            if (init) this.mvs.push(mv);
           }
           if (j + 1 < this.mazeArray[i].length) {
             mv = this.checkVertex(mv, this.mazeArray[i][j + 1]);
+            if (init) this.mvs.push(mv);
           }
         }
         if (!previousEmpty && cell === 'EMPTY') {
@@ -150,10 +184,10 @@ class Maze {
   checkVertex(mv, cell) {
     switch (cell) {
       case 'HORIZONTAL':
-        mv = this.drawHorizontalWall(mv);
+        mv = this.drawHorizontalWall(mv).transformedMv;
         break;
       case 'VERTICAL':
-        mv = this.drawVerticalWall(mv);
+        mv = this.drawVerticalWall(mv).originalMv;
         break;
       default:
         break;
@@ -162,14 +196,12 @@ class Maze {
   }
 
   drawHorizontalWall(mv) {
-    const mv0 = mv;
-
     gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
     gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
 
     this.draw3DThick(mv, this.wallLength, 0);
 
-    return mult(mv0, translate(this.wallLength, 0.0, 0.0));
+    return { originalMv: mv, transformedMv: mult(mv, translate(this.wallLength, 0.0, 0.0)) };
   }
 
   drawVerticalWall(mv) {
@@ -182,7 +214,7 @@ class Maze {
 
     this.draw3DThick(mv, this.wallLength * this.wallRatio, 6);
 
-    return mv0;
+    return { originalMv: mv0, transformedMv: mv };
   }
 
   draw3DThick(mv, d, index) {
@@ -207,7 +239,7 @@ class Maze {
 
   render(gl, mv) {
     this.drawGround(gl);
-    this.drawMaze(gl, mv);
+    this.drawMaze(gl, mv, false);
   }
 
 }

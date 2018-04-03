@@ -8,4 +8,10 @@ window.onload = function init() {
   const gameManager = new GameManager(mazeRunner);
 
   gameManager.requestNextIteration();
+
+  window.addEventListener('keydown', function (e) {
+    if (e.keyCode == 'Q'.charCodeAt(0)) {
+      gameManager.gameOver();
+    }
+  });
 }
