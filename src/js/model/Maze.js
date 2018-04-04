@@ -23,7 +23,7 @@ class Maze {
       .then(data => this.constructArray(data))
       .then(() => {
         this.initCoords(this.wallLength, this.wallHeight);
-        initVertices(this.vertices);
+        this.buffer = initBuffer(this.vertices);
         initTextCoord(this.texCoords);
         this.initWallCoords();
         this.createTextures();
@@ -174,17 +174,24 @@ class Maze {
   }
 
   setWallVertices(i, j, x0, z0) {
-    if (this.mazeArray[i][j+1] === 'HORIZONTAL') {
-      this.wallCoords.push([[x0, z0], [x0 + this.wallLength, z0 + this.wallWidth]]);
-      return this.wallLength;
+    z0 = i === 0 ? z0 + this.wallWidth : z0;
+    
+    if (i !== 0  || j !== 0) {
+      x0 += this.wallWidth;
     }
 
-    if (this.mazeArray[i+1]) {
+    let dx = 0;
+    if (this.mazeArray[i][j + 1] === 'HORIZONTAL') {
+      this.wallCoords.push([[x0, z0 - this.wallWidth], [x0 + this.wallLength, z0]]);
+      dx = this.wallLength;
+    }
+
+    if (this.mazeArray[i + 1]) {
       if (this.mazeArray[i + 1][j] === 'VERTICAL') {
         this.wallCoords.push([[x0, z0], [x0 + this.wallWidth, z0 + this.wallLength * this.wallRatio]]);
       }
     }
-    return 0;
+    return dx;
   }
 
   checkVertex(mv, cell, init) {

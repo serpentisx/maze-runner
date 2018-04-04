@@ -14,6 +14,7 @@ class User {
         this.userXDir = 0.0;                // X-coordinate of heading
         this.userZDir = -1.0;               // Z-coordinate of heading
 
+        this.wallOffset = 0.03;
         this.maze = maze;
     }
 
@@ -62,7 +63,7 @@ class User {
                   break;
               }
 
-              const collision = this.collidesWithMaze(tmpx, tmpz);
+              const collision = this.collidesWithMaze(tmpx + this.userXDir * this.wallOffset, tmpz + this.userZDir * this.wallOffset);
 
               //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
 

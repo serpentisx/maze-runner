@@ -3,6 +3,7 @@
 var program;
 var proLoc;
 var mvLoc;
+var vPosition;
 
 const canvas = document.getElementById("gl-canvas");
 const gl = WebGLUtils.setupWebGL(canvas);
@@ -33,13 +34,16 @@ function initTextCoord(texCoords) {
   gl.enableVertexAttribArray(vTexCoord);
 }
 
-function initVertices(vertices) {
-  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+function initBuffer(vertices) {
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(vertices), gl.STATIC_DRAW);
 
-  var vPosition = gl.getAttribLocation(program, "vPosition");
+  vPosition = gl.getAttribLocation(program, "vPosition");
   gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(vPosition);
+
+  return buffer;
 }
 
 function generateTexture(imgName) {
