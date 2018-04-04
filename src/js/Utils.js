@@ -61,4 +61,29 @@ class Utils {
     }
     return collision;
   }
+
+  static pointInsideRectangle(p, r) {
+    const x1 = r[0][0];
+    const y1 = r[0][1];
+
+    const x2 = r[1][0];
+    const y2 = r[1][1];
+      
+    return p.x > x1 && p.x < x2 && p.y > y1 && p.y < y2;
+  }
+
+  static multiplyMatrices(m1, m2) {
+    var result = [];
+    for (var i = 0; i < m1.length; i++) {
+      result[i] = [];
+      for (var j = 0; j < m2[0].length; j++) {
+        var sum = 0;
+        for (var k = 0; k < m1[0].length; k++) {
+          sum += m1[i][k] * m2[k][j];
+        }
+        result[i][j] = sum;
+      }
+    }
+    return result;
+  }
 }

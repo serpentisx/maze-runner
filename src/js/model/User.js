@@ -6,13 +6,15 @@ var origY;
 
 class User {
 
-    constructor() {
-        this.userXPos = 3.5;                // Initial position of user
-        this.userZPos = 9.0;                //   in (x, z) coordinates, y is fixed
+    constructor(maze) {
+        this.userXPos = 4.2;                // Initial position of user
+        this.userZPos = 9;                //   in (x, z) coordinates, y is fixed
         this.userIncr = 0.1;                // Size of forward/backward step
         this.userAngle = 270.0;             // Direction of the user in degrees
         this.userXDir = 0.0;                // X-coordinate of heading
         this.userZDir = -1.0;               // Z-coordinate of heading
+
+        this.maze = maze;
     }
 
     // Initialise event listeners for user movement
@@ -37,26 +39,64 @@ class User {
         }.bind(this));
 
         window.addEventListener("keydown", function (e) {
-            switch (e.keyCode) {
+            if (this.maze.hasLoaded) {
+              let tmpx;
+              let tmpz;
+
+              switch (e.keyCode) {
                 case 87:	// w
-                    this.userXPos += this.userIncr * this.userXDir;
-                    this.userZPos += this.userIncr * this.userZDir;;                    
-                    break;
+                  tmpx = this.userXPos + this.userIncr * this.userXDir;
+                  tmpz = this.userZPos + this.userIncr * this.userZDir;
+                  break;
                 case 83:	// s
-                    this.userXPos -= this.userIncr * this.userXDir;
-                    this.userZPos -= this.userIncr * this.userZDir;;
-                    break;
+                  tmpx = this.userXPos - this.userIncr * this.userXDir;
+                  tmpz = this.userZPos - this.userIncr * this.userZDir;
+                  break;
                 case 65:	// a
-                    this.userXPos += this.userIncr * this.userZDir;
-                    this.userZPos -= this.userIncr * this.userXDir;;
-                    break;
+                  tmpx = this.userXPos + this.userIncr * this.userZDir;
+                  tmpz = this.userZPos - this.userIncr * this.userXDir;
+                  break;
                 case 68:	// d
-                    this.userXPos -= this.userIncr * this.userZDir;
-                    this.userZPos += this.userIncr * this.userXDir;;
-                    break;
-            }
+                  tmpx = this.userXPos - this.userIncr * this.userZDir;
+                  tmpz = this.userZPos + this.userIncr * this.userXDir;
+                  break;
+              }
+
+              const collision = this.collidesWithMaze(tmpx, tmpz);
+
+              //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
+
+              if (!collision) {
+                this.userXPos = tmpx;
+                this.userZPos = tmpz;
+              }
+             }
+          
         }.bind(this));
         this.hasLoaded = true;
+    }
+
+    collidesWithMaze(nextX, nextZ) {
+      for (let i = 0; i < this.maze.wallCoords.length; i++) {
+        const wall = this.maze.wallCoords[i];
+
+        // x represents the user's position in x-plane
+        // z represents the user's position in z-plane
+        // ... 
+        // where excatly are x and y though? (with respect to LookAt function in render)
+        // can't find any documentation about this on the internet
+        
+        // NB: it's more practical to represent the user as a shape, e.g. a rectangle rather than a point
+        const collision = Utils.pointInsideRectangle({
+          x: nextX,
+          y: nextZ
+        }, wall);
+
+        if (collision) {
+          return true;
+        }
+      }
+      return false;
     }
 
 
