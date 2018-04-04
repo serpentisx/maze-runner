@@ -7,8 +7,8 @@ var origY;
 class User {
 
     constructor(maze) {
-        this.userXPos = 0.0;                // Initial position of user
-        this.userZPos = 0.0;                //   in (x, z) coordinates, y is fixed
+        this.userXPos = 4.2;                // Initial position of user
+        this.userZPos = 9;                //   in (x, z) coordinates, y is fixed
         this.userIncr = 0.1;                // Size of forward/backward step
         this.userAngle = 270.0;             // Direction of the user in degrees
         this.userXDir = 0.0;                // X-coordinate of heading
@@ -64,6 +64,8 @@ class User {
 
               const collision = this.collidesWithMaze(tmpx, tmpz);
 
+              //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
+
               if (!collision) {
                 this.userXPos = tmpx;
                 this.userZPos = tmpz;
@@ -86,8 +88,8 @@ class User {
         
         // NB: it's more practical to represent the user as a shape, e.g. a rectangle rather than a point
         const collision = Utils.pointInsideRectangle({
-          x: nextX + this.userXDir * this.maze.wallWidth,
-          y: nextZ + this.userZDir * this.maze.wallWidth
+          x: nextX,
+          y: nextZ
         }, wall);
 
         if (collision) {
