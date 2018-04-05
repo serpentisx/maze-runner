@@ -7,8 +7,11 @@ var origY;
 class User {
 
   constructor(maze) {
-    this.userXPos = 4.2;                // Initial position of user
-    this.userZPos = 8;                //   in (x, z) coordinates, y is fixed
+    this.mazeGl = gl;
+    this.minimapGl = gl_mini;
+
+    this.userXPos = 4.8;                // Initial position of user
+    this.userZPos = 10;                //   in (x, z) coordinates, y is fixed
     this.userIncr = 0.1;                // Size of forward/backward step
     this.userAngle = 270.0;             // Direction of the user in degrees
     this.userXDir = 0.0;                // X-coordinate of heading
@@ -66,7 +69,7 @@ class User {
 
           const collision = this.collidesWithMaze(tmpx, tmpz);
 
-          console.log(this.userXPos, this.userXPos);
+         // console.log(this.userXPos, this.userXPos);
           
 
           //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
@@ -84,14 +87,6 @@ class User {
   collidesWithMaze(nextX, nextZ) {
     for (let i = 0; i < this.maze.wallCoords.length; i++) {
       const wall = this.maze.wallCoords[i];
-
-      // x represents the user's position in x-plane
-      // z represents the user's position in z-plane
-      // ... 
-      // where excatly are x and y though? (with respect to LookAt function in render)
-      // can't find any documentation about this on the internet
-      
-      // NB: it's more practical to represent the user as a shape, e.g. a rectangle rather than a point
       const collision = Utils.pointInsideRectangle({
         x: nextX,
         y: nextZ
@@ -105,10 +100,13 @@ class User {
   }
 
 
-  render(gl) {
-    const mv = lookAt(vec3(this.userXPos, 0.5, this.userZPos), vec3(this.userXPos + this.userXDir, 0.5, this.userZPos + this.userZDir), vec3(0.0, 1.0, 0.0));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
-    return mv;
-  }
+  render() {
+    const mazeMv = lookAt(vec3(this.userXPos, 0.5, this.userZPos), vec3(this.userXPos + this.userXDir, 0.5, this.userZPos + this.userZDir), vec3(0.0, 1.0, 0.0));
+    const miniMv = lookAt(vec3(this.userXPos, 10, this.userZPos), vec3(this.userXPos + this.userXDir, 0, this.userZPos + this.userZDir), vec3(0.0, 1, 0.0));
+    
+    this.mazeGl.uniformMatrix4fv(mvLoc, false, flatten(mazeMv));
+    this.minimapGl.uniformMatrix4fv(mvLoc_mini, false, flatten(miniMv));
 
+    return { mazeMv, miniMv };
+  }
 }

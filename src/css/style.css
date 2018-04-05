@@ -8,8 +8,10 @@ html, body {
     padding: 0;
 }
 
-#myCanvas {
-    display: block;
+#gl-canvas-minimap {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .hidden {

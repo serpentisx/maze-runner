@@ -10,10 +10,8 @@ class RenderManager {
     this.frameCounter = 1;
   }
 
-  render(gl) {
-
-    if (this.doClear) gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    if (this.doRender) this.renderer(gl);
+  render() {
+    if (this.doRender) this.renderer();
 
     this.frameCounter++;
   }

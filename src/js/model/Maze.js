@@ -1,6 +1,10 @@
 class Maze {
 
   constructor() {
+    this.gl = gl;
+    this.mvLoc = mvLoc;
+    this.program = program;
+    
     this.wallCoords = [];
     this.mvs = [];
 
@@ -13,7 +17,7 @@ class Maze {
     this.hasLoaded = false;
   }
 
-  init(mazeFile, mv) {
+  init(mazeFile) {
     const fileLoc = `assets/${mazeFile}`;
     //const fileLoc = 'assets/test.txt';
     this.mazeArray = [];
@@ -23,8 +27,8 @@ class Maze {
       .then(data => this.constructArray(data))
       .then(() => {
         this.initCoords(this.wallLength, this.wallHeight);
-        this.buffer = initBuffer(this.vertices);
-        initTextCoord(this.texCoords);
+        this.buffer = initBuffer(this.gl, this.program, this.vertices);
+        initTextCoord(this.gl, this.program, this.texCoords);
         this.initWallCoords();
         this.createTextures();
 
@@ -96,8 +100,8 @@ class Maze {
   }
 
   createTextures() {
-    this.texVegg = generateTexture('VeggImage');
-    this.texGolf = generateTexture('GolfImage');
+    this.texVegg = generateTexture(this.gl, this.program,  'VeggImage');
+    this.texGolf = generateTexture(this.gl, this.program, 'GolfImage');
   }
 
   constructArray(textFile) {
@@ -171,12 +175,9 @@ class Maze {
       x = 0;
       z += this.wallLength * this.wallRatio;
     }
-    console.log(this.wallCoords);
-    
   }
 
   setWallVertices(i, j, x0, z0) {
-
     let dx = 0;
     if (this.mazeArray[i][j + 1] === 'HORIZONTAL') {
       this.wallCoords.push([[x0, z0], [x0 + this.wallLength, z0 + this.wallWidth]]);
@@ -207,8 +208,8 @@ class Maze {
   }
 
   drawHorizontalWall(mv) {
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
-    gl.drawArrays(gl.TRIANGLES, 0, this.numVertices);
+    this.gl.uniformMatrix4fv(this.mvLoc, false, flatten(mv));
+    this.gl.drawArrays(this.gl.TRIANGLES, 0, this.numVertices);
 
     this.draw3DThick(mv, this.wallLength, 0);
 
@@ -220,8 +221,8 @@ class Maze {
 
     mv = mult(mv, translate(0.0, 0.0, this.wallLength * this.wallRatio));
     mv = mult(mv, rotateY(-90.0));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
-    gl.drawArrays(gl.TRIANGLES, 6, this.numVertices);
+    this.gl.uniformMatrix4fv(this.mvLoc, false, flatten(mv));
+    this.gl.drawArrays(this.gl.TRIANGLES, 6, this.numVertices);
 
     this.draw3DThick(mv, this.wallLength * this.wallRatio, 6);
 
@@ -230,17 +231,17 @@ class Maze {
 
   draw3DThick(mv, d, index) {
     mv = mult(mv, translate(0.0, 0.0, this.wallWidth));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
-    gl.drawArrays(gl.TRIANGLES, index, this.numVertices);
+    this.gl.uniformMatrix4fv(this.mvLoc, false, flatten(mv));
+    this.gl.drawArrays(this.gl.TRIANGLES, index, this.numVertices);
 
     mv = mult(mv, scalem(1, 1, (this.wallWidth / 2) * (this.wallHeight / this.wallLength)));
     mv = mult(mv, rotateY(-90.0));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
-    gl.drawArrays(gl.TRIANGLES, 12, this.numVertices);
+    this.gl.uniformMatrix4fv(this.mvLoc, false, flatten(mv));
+    this.gl.drawArrays(this.gl.TRIANGLES, 12, this.numVertices);
 
     mv = mult(mv, translate(0.0, 0.0, d));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
-    gl.drawArrays(gl.TRIANGLES, 12, this.numVertices);
+    this.gl.uniformMatrix4fv(this.mvLoc, false, flatten(mv));
+    this.gl.drawArrays(this.gl.TRIANGLES, 12, this.numVertices);
   }
 
   drawGround(gl) {
@@ -248,9 +249,9 @@ class Maze {
     gl.drawArrays(gl.TRIANGLES, 18, this.numVertices);
   }
 
-  render(gl, mv) {
-    this.drawGround(gl);
-    this.drawMaze(gl, mv);
+  render(mv) {
+    this.drawGround(this.gl);
+    this.drawMaze(this.gl, mv);
   }
 
 }

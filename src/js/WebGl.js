@@ -1,34 +1,50 @@
 // Constants for WebGl and function for initialization
-
-var program;
-var proLoc;
-var mvLoc;
 var vPosition;
 
 const canvas = document.getElementById("gl-canvas");
-//canvas.width = window.innerWidth;
-//canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-const gl = WebGLUtils.setupWebGL(canvas);
+const canvas_minimap = document.getElementById("gl-canvas-minimap");
 
-if (!gl) { alert("WebGL isn't available"); }
+const gameGL = initWeblGl(canvas);
+const gameGL_mini = initWeblGl(canvas_minimap);
 
-gl.viewport(0, 0, canvas.width, canvas.height);
-gl.clearColor(0.9, 1.0, 1.0, 1.0);
-gl.enable(gl.DEPTH_TEST);
+var gl = gameGL.gl;
+var proLoc = gameGL.proLoc;
+var mvLoc = gameGL.mvLoc;
+var program = gameGL.program;
 
-//  Load shaders and initialize attribute buffers
-program = initShaders(gl, "vertex-shader", "fragment-shader");
-gl.useProgram(program);
+var gl_mini = gameGL_mini.gl;
+var proLoc_mini = gameGL_mini.proLoc;
+var mvLoc_mini = gameGL_mini.mvLoc;
+var program_mini = gameGL_mini.program;
 
-proLoc = gl.getUniformLocation(program, "projection");
-mvLoc = gl.getUniformLocation(program, "modelview");
+/*--------------------------------------------------*/
 
-var proj = perspective(50.0, 1.0, 0.2, 100.0);
-gl.uniformMatrix4fv(proLoc, false, flatten(proj));
+function initWeblGl(canvas) {
+  const gl = WebGLUtils.setupWebGL(canvas);
 
+  if (!gl) { alert("WebGL isn't available"); }
 
-function initTextCoord(texCoords) {
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.clearColor(0.9, 1.0, 1.0, 1.0);
+  gl.enable(gl.DEPTH_TEST);
+
+  //  Load shaders and initialize attribute buffers
+  const program = initShaders(gl, "vertex-shader", "fragment-shader");
+  gl.useProgram(program);
+
+  const proLoc = gl.getUniformLocation(program, "projection");
+  const mvLoc = gl.getUniformLocation(program, "modelview");
+
+  const proj = perspective(50.0, 1.0, 0.2, 100.0);
+  gl.uniformMatrix4fv(proLoc, false, flatten(proj));
+
+  return { mvLoc, proLoc, gl, program };
+}
+
+function initTextCoord(gl, program, texCoords) {
   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
@@ -37,7 +53,7 @@ function initTextCoord(texCoords) {
   gl.enableVertexAttribArray(vTexCoord);
 }
 
-function initBuffer(vertices) {
+function initBuffer(gl, program, vertices) {
   const buffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(vertices), gl.STATIC_DRAW);
@@ -49,7 +65,7 @@ function initBuffer(vertices) {
   return buffer;
 }
 
-function generateTexture(imgName) {
+function generateTexture(gl, program, imgName) {
   var img = document.getElementById(imgName);
   var texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
