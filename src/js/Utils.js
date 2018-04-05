@@ -62,12 +62,12 @@ class Utils {
     return collision;
   }
 
-  static pointInsideRectangle(p, r) {
-    const x1 = r[0][0];
-    const y1 = r[0][1];
+  static pointInsideRectangle(p, r, offset) {
+    const x1 = r[0][0] - offset;
+    const y1 = r[0][1] - offset;
 
-    const x2 = r[1][0];
-    const y2 = r[1][1];
+    const x2 = r[1][0] + offset;
+    const y2 = r[1][1] + offset;
       
     return p.x > x1 && p.x < x2 && p.y > y1 && p.y < y2;
   }

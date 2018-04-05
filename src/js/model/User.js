@@ -6,105 +6,109 @@ var origY;
 
 class User {
 
-    constructor(maze) {
-        this.userXPos = 4.2;                // Initial position of user
-        this.userZPos = 9;                //   in (x, z) coordinates, y is fixed
-        this.userIncr = 0.1;                // Size of forward/backward step
-        this.userAngle = 270.0;             // Direction of the user in degrees
-        this.userXDir = 0.0;                // X-coordinate of heading
-        this.userZDir = -1.0;               // Z-coordinate of heading
+  constructor(maze) {
+    this.userXPos = 4.2;                // Initial position of user
+    this.userZPos = 8;                //   in (x, z) coordinates, y is fixed
+    this.userIncr = 0.1;                // Size of forward/backward step
+    this.userAngle = 270.0;             // Direction of the user in degrees
+    this.userXDir = 0.0;                // X-coordinate of heading
+    this.userZDir = -1.0;               // Z-coordinate of heading
 
-        this.wallOffset = 0.03;
-        this.maze = maze;
-    }
+    this.wallOffset = 0.22;
+    this.maze = maze;
+  }
 
-    // Initialise event listeners for user movement
-    init() {        
-        canvas.addEventListener("mousedown", function (e) {
-            movement = true;
+  // Initialise event listeners for user movement
+  init() {        
+    canvas.addEventListener("mousedown", function (e) {
+        movement = true;
+        origX = e.clientX;
+    }.bind(this));
+
+    canvas.addEventListener("mouseup", function (e) {
+        movement = false;
+    }.bind(this));
+
+    canvas.addEventListener("mousemove", function (e) {
+        if (movement) {
+            this.userAngle += 0.4 * (origX - e.clientX);
+            this.userAngle %= 360.0;
+            this.userXDir = Math.cos(radians(this.userAngle));
+            this.userZDir = Math.sin(radians(this.userAngle));
             origX = e.clientX;
-        }.bind(this));
-
-        canvas.addEventListener("mouseup", function (e) {
-            movement = false;
-        }.bind(this));
-
-        canvas.addEventListener("mousemove", function (e) {
-            if (movement) {
-                this.userAngle += 0.4 * (origX - e.clientX);
-                this.userAngle %= 360.0;
-                this.userXDir = Math.cos(radians(this.userAngle));
-                this.userZDir = Math.sin(radians(this.userAngle));
-                origX = e.clientX;
-            }
-        }.bind(this));
-
-        window.addEventListener("keydown", function (e) {
-            if (this.maze.hasLoaded) {
-              let tmpx;
-              let tmpz;
-
-              switch (e.keyCode) {
-                case 87:	// w
-                  tmpx = this.userXPos + this.userIncr * this.userXDir;
-                  tmpz = this.userZPos + this.userIncr * this.userZDir;
-                  break;
-                case 83:	// s
-                  tmpx = this.userXPos - this.userIncr * this.userXDir;
-                  tmpz = this.userZPos - this.userIncr * this.userZDir;
-                  break;
-                case 65:	// a
-                  tmpx = this.userXPos + this.userIncr * this.userZDir;
-                  tmpz = this.userZPos - this.userIncr * this.userXDir;
-                  break;
-                case 68:	// d
-                  tmpx = this.userXPos - this.userIncr * this.userZDir;
-                  tmpz = this.userZPos + this.userIncr * this.userXDir;
-                  break;
-              }
-
-              const collision = this.collidesWithMaze(tmpx + this.userXDir * this.wallOffset, tmpz + this.userZDir * this.wallOffset);
-
-              //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
-
-              if (!collision) {
-                this.userXPos = tmpx;
-                this.userZPos = tmpz;
-              }
-             }
-          
-        }.bind(this));
-        this.hasLoaded = true;
-    }
-
-    collidesWithMaze(nextX, nextZ) {
-      for (let i = 0; i < this.maze.wallCoords.length; i++) {
-        const wall = this.maze.wallCoords[i];
-
-        // x represents the user's position in x-plane
-        // z represents the user's position in z-plane
-        // ... 
-        // where excatly are x and y though? (with respect to LookAt function in render)
-        // can't find any documentation about this on the internet
-        
-        // NB: it's more practical to represent the user as a shape, e.g. a rectangle rather than a point
-        const collision = Utils.pointInsideRectangle({
-          x: nextX,
-          y: nextZ
-        }, wall);
-
-        if (collision) {
-          return true;
         }
+    }.bind(this));
+
+    window.addEventListener("keydown", function (e) {
+        
+        if (this.maze.hasLoaded) {
+          let tmpx;
+          let tmpz;
+
+          switch (e.keyCode) {
+            case 87:	// w
+              tmpx = this.userXPos + this.userIncr * this.userXDir;
+              tmpz = this.userZPos + this.userIncr * this.userZDir;
+              break;
+            case 83:	// s
+              tmpx = this.userXPos - this.userIncr * this.userXDir;
+              tmpz = this.userZPos - this.userIncr * this.userZDir;
+              break;
+            case 65:	// a
+              tmpx = this.userXPos + this.userIncr * this.userZDir;
+              tmpz = this.userZPos - this.userIncr * this.userXDir;
+              break;
+            case 68:	// d
+              tmpx = this.userXPos - this.userIncr * this.userZDir;
+              tmpz = this.userZPos + this.userIncr * this.userXDir;
+              break;
+          }
+
+          const collision = this.collidesWithMaze(tmpx, tmpz);
+
+          console.log(this.userXPos, this.userXPos);
+          
+
+          //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
+
+          if (!collision) {
+            this.userXPos = tmpx;
+            this.userZPos = tmpz;
+          }
+          }
+      
+    }.bind(this));
+    this.hasLoaded = true;
+  }
+
+  collidesWithMaze(nextX, nextZ) {
+    for (let i = 0; i < this.maze.wallCoords.length; i++) {
+      const wall = this.maze.wallCoords[i];
+
+      // x represents the user's position in x-plane
+      // z represents the user's position in z-plane
+      // ... 
+      // where excatly are x and y though? (with respect to LookAt function in render)
+      // can't find any documentation about this on the internet
+      
+      // NB: it's more practical to represent the user as a shape, e.g. a rectangle rather than a point
+      const collision = Utils.pointInsideRectangle({
+        x: nextX,
+        y: nextZ
+      }, wall, this.wallOffset);
+
+      if (collision) {
+        return true;
       }
-      return false;
     }
+    return false;
+  }
 
 
-    render(gl) {
-        const mv = lookAt(vec3(this.userXPos, 0.5, this.userZPos), vec3(this.userXPos + this.userXDir, 0.5, this.userZPos + this.userZDir), vec3(0.0, 1.0, 0.0));
-        gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
-        return mv;
-    }
+  render(gl) {
+    const mv = lookAt(vec3(this.userXPos, 0.5, this.userZPos), vec3(this.userXPos + this.userXDir, 0.5, this.userZPos + this.userZDir), vec3(0.0, 1.0, 0.0));
+    gl.uniformMatrix4fv(mvLoc, false, flatten(mv));
+    return mv;
+  }
 
 }

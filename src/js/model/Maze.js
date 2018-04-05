@@ -4,7 +4,7 @@ class Maze {
     this.wallCoords = [];
     this.mvs = [];
 
-    this.wallLength = 1.2;
+    this.wallLength = 1.3;
     this.wallHeight = 1;
     this.wallRatio = 4 / 2;
     this.wallWidth = 0.2;
@@ -147,7 +147,7 @@ class Maze {
           mv = mult(mv, translate(this.wallLength, 0.0, 0.0));
         } else previousEmpty = false;
       }
-      mv = mult(mv0, translate(0.0, 0.0, (this.wallLength * this.wallRatio) / 2 + -this.wallWidth / 2));
+      mv = mult(mv0, translate(0.0, 0.0, (this.wallLength * this.wallRatio) / 2));
       mv0 = mv;
     }
   }
@@ -171,18 +171,15 @@ class Maze {
       x = 0;
       z += this.wallLength * this.wallRatio;
     }
+    console.log(this.wallCoords);
+    
   }
 
   setWallVertices(i, j, x0, z0) {
-    z0 = i === 0 ? z0 + this.wallWidth : z0;
-    
-    if (i !== 0  || j !== 0) {
-      x0 += this.wallWidth;
-    }
 
     let dx = 0;
     if (this.mazeArray[i][j + 1] === 'HORIZONTAL') {
-      this.wallCoords.push([[x0, z0 - this.wallWidth], [x0 + this.wallLength, z0]]);
+      this.wallCoords.push([[x0, z0], [x0 + this.wallLength, z0 + this.wallWidth]]);
       dx = this.wallLength;
     }
 

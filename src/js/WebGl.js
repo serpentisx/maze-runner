@@ -6,6 +6,9 @@ var mvLoc;
 var vPosition;
 
 const canvas = document.getElementById("gl-canvas");
+//canvas.width = window.innerWidth;
+//canvas.height = window.innerHeight;
+
 const gl = WebGLUtils.setupWebGL(canvas);
 
 if (!gl) { alert("WebGL isn't available"); }
