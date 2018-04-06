@@ -3,9 +3,11 @@
 //  * once the document is ready.
 //  */
 
+var gameManager;
+
 window.onload = function init() {
   const mazeRunner = new MazeRunner();
-  const gameManager = new GameManager(mazeRunner);
+  gameManager = new GameManager(mazeRunner);
 
   gameManager.requestNextIteration();
 

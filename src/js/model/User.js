@@ -107,6 +107,6 @@ class User {
     this.mazeGl.uniformMatrix4fv(mvLoc, false, flatten(mazeMv));
     this.minimapGl.uniformMatrix4fv(mvLoc_mini, false, flatten(miniMv));
 
-    return { mazeMv, miniMv };
+    return { mazeMv, miniMv, userXPos: this.userXPos, userZPos: this.userZPos };
   }
 }

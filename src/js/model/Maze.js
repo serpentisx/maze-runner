@@ -50,7 +50,7 @@ class Maze {
       this.generateWallTextureCoords(mult),
       this.generateWallTextureCoords(mult * this.wallRatio),
       this.generateWallTextureCoords(0.5),
-      this.generateGroundTextureCoords(55)
+      this.generateGroundTextureCoords(100)
     ].reduce((a, b) => a.concat(b), []);
 
   }
