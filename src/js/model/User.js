@@ -102,7 +102,7 @@ class User {
 
   render() {
     const mazeMv = lookAt(vec3(this.userXPos, 0.5, this.userZPos), vec3(this.userXPos + this.userXDir, 0.5, this.userZPos + this.userZDir), vec3(0.0, 1.0, 0.0));
-    const miniMv = lookAt(vec3(this.userXPos, 10, this.userZPos), vec3(this.userXPos + this.userXDir, 0, this.userZPos + this.userZDir), vec3(0.0, 1, 0.0));
+    const miniMv = lookAt(vec3(this.userXPos, 10, this.userZPos), vec3(this.userXPos + this.userXDir, 0.5, this.userZPos + this.userZDir), vec3(0.0, 1, 0.0));
     
     this.mazeGl.uniformMatrix4fv(mvLoc, false, flatten(mazeMv));
     this.minimapGl.uniformMatrix4fv(mvLoc_mini, false, flatten(miniMv));

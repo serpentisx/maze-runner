@@ -249,7 +249,15 @@ class Maze {
     gl.drawArrays(gl.TRIANGLES, 18, this.numVertices);
   }
 
+  bindVerticesBuffer(gl, buffer, vertices) {
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(vertices));
+    gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
+  }
+
   render(mv) {
+//    this.bindVerticesBuffer(this.gl, this.buffer, this.vertices);
+
     this.drawGround(this.gl);
     this.drawMaze(this.gl, mv);
   }

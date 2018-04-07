@@ -35,6 +35,13 @@ class Minimap extends Maze {
     ];
   }
 
+  bindBlobBuffer(gl, buffer, vertices) {
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(vertices));
+    gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
+  }
+    
+
   render(userX, userZ) {
     //this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
     super.render(this.mv);

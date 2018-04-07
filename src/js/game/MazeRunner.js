@@ -20,6 +20,9 @@ class MazeRunner {
   }
 
   render() {
+    this.maze.gl.clear(this.maze.gl.COLOR_BUFFER_BIT | this.maze.gl.DEPTH_BUFFER_BIT);
+    this.minimap.gl.clear(this.minimap.gl.COLOR_BUFFER_BIT | this.minimap.gl.DEPTH_BUFFER_BIT);
+
     const mv = this.user.render();
     this.minimap.mv = mv.miniMv;
 
