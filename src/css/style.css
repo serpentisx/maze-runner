@@ -10,8 +10,9 @@ html, body {
 
 #gl-canvas-minimap {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 1rem;
+    top: 1rem;
+    border: .3rem solid black;
 }
 
 .hidden {
