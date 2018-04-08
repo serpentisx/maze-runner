@@ -41,7 +41,7 @@ menu {
     position: absolute;
     top: 20px;
     left: 30px;
-    width: 400px;
+    width: 500px;
     height: 65px;
     flex-direction: row;
 }
@@ -90,4 +90,8 @@ p {
   font-size: 1.8em;
   font-weight: bold;
   margin: 0 10px;
+}
+
+.instruction {
+  font-size: 18px;
 }

@@ -51,9 +51,10 @@ class Apple extends GameItem {
     div.className = 'powerup__item showmap';
 
     div.innerHTML =
-      `<img src="assets/location.png" />\
+      '<img src="assets/location.png" />\
        <p>Show location</p>\
-       <p id="countApple">(1x)</p>`
+       <p id="countApple">(1x)</p>\
+       <p class="instruction">press 2 to activate</p>'
 
     document.querySelector('.powerup__container').appendChild(div);
   }

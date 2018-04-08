@@ -44,7 +44,7 @@ class Teapot extends GameItem {
 
     if (num) {
       const count = parseInt(num.innerHTML.match(/\d+/)[0]) + 1;
-      num.innerHTML = `(${count})x`;
+      num.innerHTML = `(${count}x)`;
 
       return;
     }
@@ -52,9 +52,10 @@ class Teapot extends GameItem {
     div.className = 'powerup__item teleport';
 
     div.innerHTML =
-      `<img src="assets/magicLamp.png" />\
+      '<img src="assets/magicLamp.png" />\
        <p>Teleport Minotaur</p>\
-       <p id="count">(1x)</p>`
+       <p id="count">(1x)</p>\
+       <p class="instruction">press 1 to activate</p>'
 
     document.querySelector('.powerup__container').appendChild(div);
   }

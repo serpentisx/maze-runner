@@ -121,7 +121,7 @@ class User {
           document.querySelector('.teleport').remove();
         }
         else {
-          num.innerHTML = `(${count})x`;
+          num.innerHTML = `(${count}x)`;
         }
 
         this.gridManager.generateMinotaurPos();
