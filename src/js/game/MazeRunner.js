@@ -27,6 +27,7 @@ class MazeRunner {
 
   update() {
     this.powerupManager.update();
+    if(!this.gridManager.hasLoaded) return;
     this.gridManager.update();
     
   }

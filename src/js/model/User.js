@@ -25,7 +25,6 @@ class User {
   init(grid) {        
 
     this.gridManager = grid;
-    console.log(this.gridManager);
 
     canvas.addEventListener("mousedown", function (e) {
         movement = true;
@@ -61,9 +60,6 @@ class User {
           }
 
           // TELEPORT MINITAUR
-          console.log("here");
-          console.log(this.gridManager);
-          
           this.gridManager.generateMinotaurPos();
 
         }
@@ -125,7 +121,7 @@ class User {
   }
 
   getPosition() {
-    return this.userXPos, this.userZPos;
+    return { x: this.userXPos, z: this.userZPos };
   }
 
   render() {

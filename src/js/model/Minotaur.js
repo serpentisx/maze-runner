@@ -23,6 +23,10 @@ class Minotaur extends GameItem {
     this.posZ = z;
   }
 
+  getPosition() {
+    return { x: this.posX, z: this.posZ };
+  }
+
   getPositionMatrix() {
     let mv = translate(this.posX, this.scaling, this.posZ);
     mv = mult(mv, scalem(this.scaling, this.scaling, this.scaling));

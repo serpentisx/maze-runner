@@ -5,31 +5,36 @@ class GridManager {
         this.cellWidth = maze.wallLength;
         this.cellLength = maze.wallLength * maze.wallRatio;
         this.wallWidth = maze.wallWidth;
-        
+        this.hasLoaded = false;
     }
 
     init (maze) {            
         this.grid = this.constructGrid(maze, this.gridDimensions(maze));   
         this.generateMinotaurPos();
         this.generateUserPos()
+        this.hasLoaded = true;
     }
 
     generateUserPos() {
         const { posX, posZ } = this.generateGridPosition();
-        if (posX === this.minotaurCell[1] && posZ === this.minotaurCell[0]) {
+        if (posX === this.minotaur.cell[1] && posZ === this.minotaur.cell[0]) {
             this.generateUserPos();
             return;
         }       
         const { x, z } = this.cellToPixels(posX, posZ) ;
         this.user.setPosition(x, z);
-        this.userCell = [x, z];            
+        this.user.cell = [x, z];            
     }
 
     generateMinotaurPos() {
         const { posX, posZ } = this.generateGridPosition();
         const { x, z } = this.cellToPixels(posX, posZ);
+        if(this.user.cell && posX === this.user.cell[1] && posZ === this.user.cell[0]) {
+            this.generateMinotaurPos();
+            return;
+        }
         this.minotaur.setPosition(x, z);
-        this.minotaurCell = [posX, posZ] ;
+        this.minotaur.cell = [posX, posZ] ;
     }
 
     generateGridPosition() {        
@@ -47,7 +52,9 @@ class GridManager {
     }
 
     pixelsToCell(posX, posZ) {
-
+        const gridX = Math.floor(posX / this.cellWidth);
+        const gridZ = Math.floor(posZ / this.cellLength);
+        return { gridX, gridZ };
     }
 
     gridDimensions(maze) {
@@ -88,16 +95,18 @@ class GridManager {
         return temp;
     }
 
-
-    arrayToPixels(maze) {
-        // const realDimensions = [arrayDimensions[0] * this.wallLength, arrayDimensions[1] * this.wallLength * this.wallRatio];
-        // Width of cell is 1.3 - 0.2 wide
-        // Height of cell is 2.6
-        //const realArray = this.constructRealArray(arrayDimensions);
+    findOnGrid(entity) {
+        const { x, z } = entity.getPosition();        
+        const { gridX, gridZ } = this.pixelsToCell(x, z);
+        
+        entity.cell = [gridX, gridZ];
     }
 
+
     update() {
-        
+        this.findOnGrid(this.user);
+        this.findOnGrid(this.minotaur)
+      //  updateMinotaurPos();
     }
 
     render() {
