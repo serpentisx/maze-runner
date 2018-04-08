@@ -43,7 +43,7 @@ class GridManager {
         const x = (this.cellWidth / 2) + (posX * this.cellWidth) + this.wallWidth/2;
         const z = (this.cellLength / 2) + (posZ * this.cellLength);
 
-        return { x, z}
+        return { x, z }
     }
 
     pixelsToCell(posX, posZ) {
