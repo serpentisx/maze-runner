@@ -19,17 +19,18 @@ class GridManager {
         this.minotaur.setPosition(x, z);
     }
 
-    generateGridPosition() {
-        const posX = Math.floor(Math.random() * Math.floor(this.grid.length));
-        const posZ = Math.floor(Math.random() * Math.floor(this.grid[0].length));
+    generateGridPosition() {        
+       const posX = Math.floor(Math.random() * Math.floor(this.grid[0].length));
+       const posZ = Math.floor(Math.random() * Math.floor(this.grid.length));
                         
         return this.cellToPixels(posX, posZ);
     }
    
 
     cellToPixels(posX, posZ) {
-        const x = (posX * this.cellWidth) /2;
-        const z = (posZ * this.cellLength) /2;
+        const x = (this.cellWidth / 2) + (posX * this.cellWidth);
+        const z = (this.cellLength / 2) + (posZ * this.cellLength);
+        console.log(posX, posZ);
         
         console.log(x, z);
 
