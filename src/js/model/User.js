@@ -59,13 +59,8 @@ class User {
           else {
             num.innerHTML = `(${count})x`;
           }
-
-          // TELEPORT MINITAUR
-          console.log("here");
-          console.log(this.gridManager);
           
           this.gridManager.generateMinotaurPos();
-
         }
       }
         
