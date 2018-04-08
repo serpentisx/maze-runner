@@ -17,10 +17,22 @@ class Minotaur extends GameItem {
     this.hasLoaded = false;
   }
 
+  setGrid(grid){
+    this.grid = grid;
+  }
+
+  calculatePath(userPos) {
+    console.log(userPos);
+    
+  }
 
   setPosition(x, z) {
     this.posX = x;
     this.posZ = z;
+  }
+
+  getPosition() {
+    return { x: this.posX, z: this.posZ };
   }
 
   getPositionMatrix() {

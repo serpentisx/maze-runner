@@ -150,7 +150,7 @@ class User {
   }
 
   getPosition() {
-    return this.userXPos, this.userZPos;
+    return { x: this.userXPos, z: this.userZPos };
   }
 
   checkIsShowingMinotaur() {
