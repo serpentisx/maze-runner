@@ -3,7 +3,7 @@ class GridManager {
     }
 
     init (maze) {      
-      //  this.grid = this.constructGrid(maze);
+      this.grid = this.constructGrid(maze);
     }
 
     

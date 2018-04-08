@@ -12,16 +12,16 @@ class MazeRunner {
     this.init();
   }
 
-  init() {
-    this.maze.init('maze.txt');
+  async init() {
+    await this.maze.init('maze.txt');
+
+    console.log(this.maze.hasLoaded); // true
     
     this.minimap.init('maze.txt');
     this.user.init();
-    // this.maze.hasLoaded needs to be true here
     this.gridManager.init(this.maze.mazeArray);
     this.powerupManager.init();
    }
-
 
   update() {
     this.powerupManager.update();
