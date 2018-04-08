@@ -45,8 +45,8 @@ class User {
     window.addEventListener("keydown", function (e) {
         
         if (this.maze.hasLoaded) {
-          let tmpx;
-          let tmpz;
+          let tmpx = this.userXPos;
+          let tmpz = this.userZPos;
 
           switch (e.keyCode) {
             case 87:	// w
@@ -68,10 +68,6 @@ class User {
           }
 
             const collision = this.collidesWithMaze(tmpx, tmpz);
-
-            
-
-            //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
 
             if (!collision) {
               this.userXPos = tmpx;
