@@ -17,6 +17,8 @@ class MazeRunner {
     
     this.minimap.init('maze.txt');
     this.user.init();
+    this.minotaur.init();
+    
     // this.maze.hasLoaded needs to be true here
     this.gridManager.init(this.maze.mazeArray);
     this.powerupManager.init();
