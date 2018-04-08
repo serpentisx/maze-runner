@@ -18,9 +18,17 @@
     uniform mat4 projection;
     uniform mat4 modelview;
 
+    attribute vec4 vNormal;
+    varying vec3 N, L, E;
+    uniform mat4 modelViewMatrix;
+    uniform mat4 projectionMatrix;
+    uniform vec4 lightPosition;
+    uniform mat3 normalMatrix;
+
     void main() 
     {
         fTexCoord = vTexCoord;
+        vec3 pos = (modelViewMatrix * vPosition).xyz;
         gl_Position = projection * modelview * vPosition;   
     } 
 </script>
@@ -61,12 +69,20 @@
 <img id="GolfImage" src="assets/ground.jpg" hidden></img>
 <img id="LoftImage" src="assets/cloud07.jpg" hidden></img>
 <img id="BallImage" src="assets/ball.jpg" hidden></img>
+<img id="Gold" src="assets/gold.jpg" hidden></img>
+<img id="Stone" src="assets/stone-2.jpg" hidden></img>
 
 <!-- Game scripts -->
 <script src="js/Constants.js"></script>
 <script src="js/WebGl.js"></script>
 <script src="js/Utils.js"></script>
+<script src="js/PlyReader.js"></script>
 
+<script src="js/manager/PowerupManager.js"></script>
+
+<script src="js/model/GameItem.js"></script>
+<script src="js/model/Minotour.js"></script>
+<script src="js/model/Teapot.js"></script>
 <script src="js/model/Maze.js"></script>
 <script src="js/model/Minimap.js"></script>
 <script src="js/model/User.js"></script>

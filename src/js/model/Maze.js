@@ -27,8 +27,8 @@ class Maze {
       .then(data => this.constructArray(data))
       .then(() => {
         this.initCoords(this.wallLength, this.wallHeight);
-        this.buffer = initBuffer(this.gl, this.program, this.vertices);
-        initTextCoord(this.gl, this.program, this.texCoords);
+        this.buffer = initBuffer(this.gl, this.program, this.vertices, 'vPosition');
+        this.vTexCoord = initTextCoord(this.gl, this.program, this.texCoords);
         this.initWallCoords();
         this.createTextures();
 
@@ -255,13 +255,22 @@ class Maze {
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
   }
 
+  changeTextureStyle(gl) {
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(this.texCoords), gl.STATIC_DRAW);
+
+    var vTexCoord = gl.getAttribLocation(this.program, "vTexCoord");
+    gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(vTexCoord);
+  }
+
   render(mv) {
     if (this.hasLoaded) {
+      this.changeTextureStyle(this.gl);
       this.bindVerticesBuffer(this.gl, this.buffer, this.vertices);
 
       this.drawGround(this.gl);
       this.drawMaze(this.gl, mv);
     }
   }
-
 }
