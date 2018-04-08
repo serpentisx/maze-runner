@@ -52,7 +52,7 @@ class Teapot extends GameItem {
     div.className = 'powerup__item';
 
     div.innerHTML =
-      `<img src="/assets/magic-lamp.png" />\
+      `<img src="/assets/magicLamp.png" />\
        <p>Teleport Minotaur</p>\
        <p id="count">(1x)</p>`
 

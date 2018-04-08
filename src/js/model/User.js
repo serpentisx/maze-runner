@@ -17,10 +17,16 @@ class User {
 
     this.wallOffset = 0.22;
     this.maze = maze;
+  
+    
   }
 
   // Initialise event listeners for user movement
-  init() {        
+  init(grid) {        
+
+    this.gridManager = grid;
+    console.log(this.gridManager);
+
     canvas.addEventListener("mousedown", function (e) {
         movement = true;
         origX = e.clientX;
@@ -55,7 +61,10 @@ class User {
           }
 
           // TELEPORT MINITAUR
-
+          console.log("here");
+          console.log(this.gridManager);
+          
+          this.gridManager.generateMinotaurPos();
 
         }
       }

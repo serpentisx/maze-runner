@@ -21,7 +21,7 @@ class MazeRunner {
 
     this.powerupManager.init();
     this.minotaur.init();
-    this.user.init();
+    this.user.init(this.gridManager);
     this.hasLoaded = true;
    }
 
