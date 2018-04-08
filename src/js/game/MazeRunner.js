@@ -5,7 +5,7 @@ class MazeRunner {
 
     this.maze = new Maze();
     this.minimap = new Minimap();
-    this.minitour = new Minotour(6.6, 7.8);
+    this.minotaur = new Minotaur(6.6, 7.8);
     this.user = new User(this.maze);
 
     this.init();
@@ -15,7 +15,7 @@ class MazeRunner {
     this.user.init();
     this.maze.init('maze.txt');
     this.minimap.init('maze.txt');
-    this.minitour.init();
+    this.minotaur.init();
     this.powerupManager.init();
   }
 
@@ -29,7 +29,7 @@ class MazeRunner {
 
     this.maze.render(mv.mazeMv);
     this.minimap.render(mv.userXPos, mv.userZPos);
-    this.minitour.render(mv.mazeMv);
+    this.minotaur.render(mv.mazeMv);
     this.powerupManager.render(mv.mazeMv);
   }
 

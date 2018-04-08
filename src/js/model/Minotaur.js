@@ -1,4 +1,4 @@
-class Minotour extends GameItem {
+class Minotaur extends GameItem {
 
   constructor(x, z) {
     super('../assets/minotaur.ply', 'Stone');
