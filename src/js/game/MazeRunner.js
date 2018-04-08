@@ -31,14 +31,14 @@ class MazeRunner {
   render() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl_mini.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    
+
     const mv = this.user.render();
     this.minimap.mv = mv.miniMv;
 
     this.maze.render(mv.mazeMv);
     this.minimap.render(mv.userXPos, mv.userZPos);
     this.minotaur.render(mv.mazeMv);
-    this.powerupManager.render(mv.mazeMv);
+    this.powerupManager.render(mv.mazeMv, mv.userXPos, mv.userZPos);
   }
 
 }

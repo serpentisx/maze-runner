@@ -21,7 +21,7 @@ class PowerupManager {
     }
   }
 
-  render(mv) {
-    this.powerups.forEach(powerup => powerup.render(mv));
+  render(mv, userX, userZ) {
+    this.powerups.forEach(powerup => powerup.render(mv, userX, userZ));
   }
 }

@@ -6,6 +6,7 @@ class Teapot extends GameItem {
     this.posX = x;
     this.posZ = z;
     this.scaling = 0.08;
+    this.recOffset = 0.5;
     this.deltaRot = 0;
 
     this.texCoords = [
@@ -27,5 +28,17 @@ class Teapot extends GameItem {
     mv = mult(mv, rotateZ(++this.deltaRot % 360));
 
     return mv;
+  }
+
+  handleCollisionWithUser(userX, userZ) {
+    const collision = this.checkCollisionWithUser(userX, userZ);
+    if (collision) {
+      this.isDestroyed = true;
+    }
+  }
+
+  render(mv, userX, userZ) {
+    super.render(mv, userX, userZ);
+    this.handleCollisionWithUser(userX, userZ);
   }
 }
