@@ -6,7 +6,7 @@ class Minotaur extends GameItem {
     this.posX = x;
     this.posZ = z;
     this.scaling = 0.3;
-
+    
     this.texCoords = [
       vec2(0.0, 0.0),
       vec2(100, 0.0),

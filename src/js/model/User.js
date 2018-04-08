@@ -10,7 +10,7 @@ class User {
     this.mazeGl = gl;
     this.minimapGl = gl_mini;
 
-    this.userXPos = 4.8;                // Initial position of user
+    this.userXPos = 6;                // Initial position of user
     this.userZPos = 10;                //   in (x, z) coordinates, y is fixed
     this.userIncr = 0.1;                // Size of forward/backward step
     this.userAngle = 270.0;             // Direction of the user in degrees
@@ -69,7 +69,6 @@ class User {
 
           const collision = this.collidesWithMaze(tmpx, tmpz);
 
-         // console.log(this.userXPos, this.userXPos);
           
 
           //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
@@ -101,6 +100,7 @@ class User {
 
 
   render() {
+      
     const mazeMv = lookAt(vec3(this.userXPos, 0.5, this.userZPos), vec3(this.userXPos + this.userXDir, 0.5, this.userZPos + this.userZDir), vec3(0.0, 1.0, 0.0));
     const miniMv = lookAt(vec3(this.userXPos, 10, this.userZPos), vec3(this.userXPos + this.userXDir, 0, this.userZPos + this.userZDir), vec3(0.0, 1, 0.0));
     

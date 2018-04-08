@@ -2,6 +2,7 @@ class MazeRunner {
 
   constructor() {
     this.powerupManager = new PowerupManager();
+    this.gridManager = new GridManager();
 
     this.maze = new Maze();
     this.minimap = new Minimap();
@@ -12,15 +13,19 @@ class MazeRunner {
   }
 
   init() {
-    this.user.init();
     this.maze.init('maze.txt');
+    
     this.minimap.init('maze.txt');
-    this.minotaur.init();
+    this.user.init();
+    // this.maze.hasLoaded needs to be true here
+    this.gridManager.init(this.maze.mazeArray);
     this.powerupManager.init();
-  }
+   }
+
 
   update() {
     this.powerupManager.update();
+    
   }
 
   render() {

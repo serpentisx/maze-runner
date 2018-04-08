@@ -13,13 +13,12 @@ class Maze {
     this.wallRatio = 4 / 2;
     this.wallWidth = 0.2;
     this.numVertices = 6;
-
+  
     this.hasLoaded = false;
   }
 
-  init(mazeFile) {
+  async init(mazeFile) {
     const fileLoc = `assets/${mazeFile}`;
-    //const fileLoc = 'assets/test.txt';
     this.mazeArray = [];
 
     fetch(fileLoc)
@@ -31,10 +30,12 @@ class Maze {
         this.vTexCoord = initTextCoord(this.gl, this.program, this.texCoords);
         this.initWallCoords();
         this.createTextures();
-
-        this.hasLoaded = true;
-      });
+        
+        this.hasLoaded = true;        
+      });      
   }
+
+
 
   initCoords(wallLength, wallheight) {
     const mult = wallLength * 2;
