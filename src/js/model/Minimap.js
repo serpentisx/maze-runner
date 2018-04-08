@@ -1,6 +1,4 @@
 
-var colorBall = vec4(0.25, 0.25, 0.25, 1.0);
-
 class Minimap extends Maze {
 
   constructor() {
@@ -10,7 +8,7 @@ class Minimap extends Maze {
     this.mvLoc = mvLoc_mini;
     this.program = program_mini;
 
-    this.rectangleSize = 1;
+    this.rectangleSize = 0.2;
     this.verticesPoint = [];
 
     this.texBall = generateTexture(this.gl, this.program,  'BallImage');
@@ -40,17 +38,17 @@ class Minimap extends Maze {
     gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(vertices));
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
   }
-    
+
+  drawBlob(gl, userX, userZ) {
+    this.bindBlobBuffer(gl, this.PointBuffer, this.createRectanglePoint(userX, userZ));
+
+    gl.bindTexture(gl.TEXTURE_2D, this.texBall);
+    gl.uniformMatrix4fv(this.mvLoc, false, flatten(this.mv));
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  }
 
   render(userX, userZ) {
-    //this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
     super.render(this.mv);
-
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.PointBuffer);
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, flatten(this.createRectanglePoint(userX, userZ)), gl.STATIC_DRAW);
-
-    this.gl.bindTexture(gl.TEXTURE_2D, this.texBall);
-    this.gl.uniformMatrix4fv(this.mvLoc, false, flatten(this.mv));
-    this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);  
+    this.drawBlob(this.gl, userX, userZ);
   }
 }

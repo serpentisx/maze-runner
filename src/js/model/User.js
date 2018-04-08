@@ -69,11 +69,6 @@ class User {
 
           const collision = this.collidesWithMaze(tmpx, tmpz);
 
-         // console.log(this.userXPos, this.userXPos);
-          
-
-          //console.log(tmpx + this.userXDir * this.maze.wallWidth, tmpz + this.userZDir * this.maze.wallWidth, collision);
-
           if (!collision) {
             this.userXPos = tmpx;
             this.userZPos = tmpz;

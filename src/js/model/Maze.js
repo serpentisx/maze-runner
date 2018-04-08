@@ -50,7 +50,7 @@ class Maze {
       this.generateWallTextureCoords(mult),
       this.generateWallTextureCoords(mult * this.wallRatio),
       this.generateWallTextureCoords(0.5),
-      this.generateGroundTextureCoords(100)
+      this.generateGroundTextureCoords(100),
     ].reduce((a, b) => a.concat(b), []);
 
   }
@@ -256,10 +256,12 @@ class Maze {
   }
 
   render(mv) {
-//    this.bindVerticesBuffer(this.gl, this.buffer, this.vertices);
+    if (this.hasLoaded) {
+      this.bindVerticesBuffer(this.gl, this.buffer, this.vertices);
 
-    this.drawGround(this.gl);
-    this.drawMaze(this.gl, mv);
+      this.drawGround(this.gl);
+      this.drawMaze(this.gl, mv);
+    }
   }
 
 }
