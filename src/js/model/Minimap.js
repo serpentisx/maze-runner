@@ -17,7 +17,7 @@ class Minimap extends Maze {
 
   initBuffer() {
     const vertices = this.createRectanglePoint(0, 0);
-    this.PointBuffer = initBuffer(this.gl, this.program, vertices);
+    this.PointBuffer = initBuffer(this.gl, this.program, vertices, 'vPosition');
   }
 
   createRectanglePoint(x, z) {

@@ -1,5 +1,6 @@
 // Constants for WebGl and function for initialization
 var vPosition;
+var vNormal;
 
 const canvas = document.getElementById("gl-canvas");
 canvas.width = window.innerWidth;
@@ -51,16 +52,21 @@ function initTextCoord(gl, program, texCoords) {
   var vTexCoord = gl.getAttribLocation(program, "vTexCoord");
   gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(vTexCoord);
+
+  return vTexCoord;
 }
 
-function initBuffer(gl, program, vertices) {
+function initBuffer(gl, program, vertices, attribute) {
   const buffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(vertices), gl.STATIC_DRAW);
 
-  vPosition = gl.getAttribLocation(program, "vPosition");
-  gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
-  gl.enableVertexAttribArray(vPosition);
+  const aLoc = gl.getAttribLocation(program, attribute);
+
+  attribute === 'vPosition' ? vPosition = aLoc : vNormal = aLoc;
+
+  gl.vertexAttribPointer(aLoc, 4, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(aLoc);
 
   return buffer;
 }
