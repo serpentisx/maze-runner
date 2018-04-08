@@ -7,7 +7,7 @@ class MazeRunner {
     this.maze = new Maze();
     this.minimap = new Minimap();
     this.minotaur = new Minotaur();
-    this.user = new User(this.maze);
+    this.user = new User({ maze: this.maze, minotaur: this.minotaur });
     
     this.gridManager = new GridManager(this.user, this.minotaur, this.maze);
 
@@ -40,7 +40,7 @@ class MazeRunner {
     this.minimap.mv = mv.miniMv;
 
     this.maze.render(mv.mazeMv);
-    this.minimap.render(mv.userXPos, mv.userZPos);
+    this.minimap.render(mv.userXPos, mv.userZPos, mv.minotaur);
     this.minotaur.render(mv.mazeMv);
     this.powerupManager.render(mv.mazeMv, mv.userXPos, mv.userZPos);
   }

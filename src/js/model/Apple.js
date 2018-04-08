@@ -1,12 +1,12 @@
-class Teapot extends GameItem {
+class Apple extends GameItem {
 
   constructor(x, z) {
-    super('./assets/teapot.ply', 'Gold');
+    super('./assets/apple.ply', 'Gold');
 
     this.posX = x;
     this.posZ = z;
     this.scaling = 0.08;
-    this.recOffset = 0.5;
+    this.recOffset = 0.40;
     this.deltaRot = 0;
 
     this.texCoords = [
@@ -24,8 +24,7 @@ class Teapot extends GameItem {
   getPositionMatrix() {
     let mv = translate(this.posX, this.scaling + 0.25, this.posZ);
     mv = mult(mv, scalem(this.scaling, this.scaling, this.scaling));
-    mv = mult(mv, rotateX(90.0));
-    mv = mult(mv, rotateZ(++this.deltaRot % 360));
+    mv = mult(mv, rotateY(++this.deltaRot % 360));
 
     return mv;
   }
@@ -40,7 +39,7 @@ class Teapot extends GameItem {
 
   addPoweruptoGame() {
     const div = document.createElement('div');
-    const num = document.getElementById('count');
+    const num = document.getElementById('countApple');
 
     if (num) {
       const count = parseInt(num.innerHTML.match(/\d+/)[0]) + 1;
@@ -49,12 +48,12 @@ class Teapot extends GameItem {
       return;
     }
 
-    div.className = 'powerup__item teleport';
+    div.className = 'powerup__item showmap';
 
     div.innerHTML =
-      `<img src="assets/magicLamp.png" />\
-       <p>Teleport Minotaur</p>\
-       <p id="count">(1x)</p>`
+      `<img src="assets/location.png" />\
+       <p>Show location</p>\
+       <p id="countApple">(1x)</p>`
 
     document.querySelector('.powerup__container').appendChild(div);
   }
