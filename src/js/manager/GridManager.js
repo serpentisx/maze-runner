@@ -104,9 +104,12 @@ class GridManager {
 
 
     update() {
+        const prev = this.user.cell;
         this.findOnGrid(this.user);
         this.findOnGrid(this.minotaur)
-      //  updateMinotaurPos();
+        if(prev[0] !== this.user.cell[0] && prev[1] !== this.user.cell[1]) {
+            this.minotaur.calculatePath(this.user.cell);
+        }
     }
 
     render() {

@@ -58,10 +58,8 @@ class User {
           else {
             num.innerHTML = `(${count})x`;
           }
-
-          // TELEPORT MINITAUR
+          
           this.gridManager.generateMinotaurPos();
-
         }
       }
         
