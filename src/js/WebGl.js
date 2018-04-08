@@ -29,7 +29,7 @@ function initWeblGl(canvas) {
   if (!gl) { alert("WebGL isn't available"); }
 
   gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(0.9, 1.0, 1.0, 1.0);
+  gl.clearColor(0.8, 0.23, 0.09, .6);
   gl.enable(gl.DEPTH_TEST);
 
   //  Load shaders and initialize attribute buffers
