@@ -21,18 +21,18 @@ class Maze {
     const fileLoc = `assets/${mazeFile}`;
     this.mazeArray = [];
 
-    fetch(fileLoc)
-      .then(res => res.text())
-      .then(data => this.constructArray(data))
-      .then(() => {
-        this.initCoords(this.wallLength, this.wallHeight);
-        this.buffer = initBuffer(this.gl, this.program, this.vertices, 'vPosition');
-        this.vTexCoord = initTextCoord(this.gl, this.program, this.texCoords);
-        this.initWallCoords();
-        this.createTextures();
-        
-        this.hasLoaded = true;        
-      });      
+    const response = await fetch(fileLoc);
+    const data = await response.text();
+
+    this.constructArray(data);
+
+    this.initCoords(this.wallLength, this.wallHeight);
+    this.buffer = initBuffer(this.gl, this.program, this.vertices, 'vPosition');
+    this.vTexCoord = initTextCoord(this.gl, this.program, this.texCoords);
+    this.initWallCoords();
+    this.createTextures();
+
+    this.hasLoaded = true;
   }
 
 

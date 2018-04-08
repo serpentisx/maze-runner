@@ -1,10 +1,8 @@
 class Minotaur extends GameItem {
 
-  constructor(x, z) {
+  constructor() {
     super('./assets/minotaur.ply', 'Stone');
 
-    this.posX = x;
-    this.posZ = z;
     this.scaling = 0.3;
     
     this.texCoords = [
@@ -17,6 +15,12 @@ class Minotaur extends GameItem {
     ];
 
     this.hasLoaded = false;
+  }
+
+
+  setPosition(x, z) {
+    this.posX = x;
+    this.posZ = z;
   }
 
   getPositionMatrix() {

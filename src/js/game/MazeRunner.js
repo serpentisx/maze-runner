@@ -1,36 +1,41 @@
 class MazeRunner {
 
   constructor() {
+    this.hasLoaded = false;
     this.powerupManager = new PowerupManager();
-    this.gridManager = new GridManager();
 
     this.maze = new Maze();
     this.minimap = new Minimap();
-    this.minotaur = new Minotaur(6.6, 7.8);
+    this.minotaur = new Minotaur();
     this.user = new User(this.maze);
+    
+    this.gridManager = new GridManager(this.user, this.minotaur, this.maze);
 
     this.init();
   }
 
-  init() {
-    this.maze.init('maze.txt');
-    
+  async init() {
+    await this.maze.init('maze.txt');
     this.minimap.init('maze.txt');
-    this.user.init();
-    this.minotaur.init();
-    
-    // this.maze.hasLoaded needs to be true here
     this.gridManager.init(this.maze.mazeArray);
-    this.powerupManager.init();
-   }
 
+    this.powerupManager.init();
+    this.minotaur.init();
+    this.user.init();
+    this.hasLoaded = true;
+   }
 
   update() {
     this.powerupManager.update();
+    this.gridManager.update();
     
   }
 
   render() {
+    if(!this.hasLoaded) return;
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl_mini.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    
     const mv = this.user.render();
     this.minimap.mv = mv.miniMv;
 
