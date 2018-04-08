@@ -1,7 +1,7 @@
 class Teapot extends GameItem {
 
   constructor(x, z) {
-    super('../assets/teapot.ply', 'Gold');
+    super('./assets/teapot.ply', 'Gold');
 
     this.posX = x;
     this.posZ = z;

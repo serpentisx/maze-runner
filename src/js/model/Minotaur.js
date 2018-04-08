@@ -1,7 +1,7 @@
 class Minotaur extends GameItem {
 
   constructor(x, z) {
-    super('../assets/minotaur.ply', 'Stone');
+    super('./assets/minotaur.ply', 'Stone');
 
     this.posX = x;
     this.posZ = z;
