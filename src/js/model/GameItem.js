@@ -44,11 +44,16 @@ class GameItem {
     gl.bindTexture(gl.TEXTURE_2D, this.texture);
   }
 
-  isCollidingWithUser(userX, userZ) {
-    // TO DO - Need to consider a colliding box
+  checkCollisionWithUser(userX, userZ) {
+    const p = { x: userX, y: userZ };
+    const r = [[this.posX, this.posZ], [this.posX, this.posZ]];
+
+    const collision = Utils.pointInsideRectangle(p, r, this.recOffset);
+
+    return collision;
   }
 
-  render(mv) {
+  render(mv, userX, userZ) {
     if (this.hasLoaded) {
       mv = mult(mv, this.getPositionMatrix());
 
