@@ -11,28 +11,37 @@ class GridManager {
     init (maze) {            
         this.grid = this.constructGrid(maze, this.gridDimensions(maze));   
         this.generateMinotaurPos();
-        //generatePosition();
+        this.generateUserPos()
+    }
+
+    generateUserPos() {
+        const { posX, posZ } = this.generateGridPosition();
+        if (posX === this.minotaurCell[1] && posZ === this.minotaurCell[0]) {
+            this.generateUserPos();
+            return;
+        }       
+        const { x, z } = this.cellToPixels(posX, posZ) ;
+        this.user.setPosition(x, z);
+        this.userCell = [x, z];            
     }
 
     generateMinotaurPos() {
-        const {x, z} = this.generateGridPosition();
+        const { posX, posZ } = this.generateGridPosition();
+        const { x, z } = this.cellToPixels(posX, posZ);
         this.minotaur.setPosition(x, z);
+        this.minotaurCell = [posX, posZ] ;
     }
 
     generateGridPosition() {        
        const posX = Math.floor(Math.random() * Math.floor(this.grid[0].length));
        const posZ = Math.floor(Math.random() * Math.floor(this.grid.length));
-                        
-        return this.cellToPixels(posX, posZ);
+       return { posX, posZ };
     }
    
 
     cellToPixels(posX, posZ) {
-        const x = (this.cellWidth / 2) + (posX * this.cellWidth);
+        const x = (this.cellWidth / 2) + (posX * this.cellWidth) + this.wallWidth/2;
         const z = (this.cellLength / 2) + (posZ * this.cellLength);
-        console.log(posX, posZ);
-        
-        console.log(x, z);
 
         return { x, z}
     }

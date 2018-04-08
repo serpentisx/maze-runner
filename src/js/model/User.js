@@ -10,8 +10,6 @@ class User {
     this.mazeGl = gl;
     this.minimapGl = gl_mini;
 
-    this.userXPos = 6;                // Initial position of user
-    this.userZPos = 10;                //   in (x, z) coordinates, y is fixed
     this.userIncr = 0.1;                // Size of forward/backward step
     this.userAngle = 270.0;             // Direction of the user in degrees
     this.userXDir = 0.0;                // X-coordinate of heading
@@ -94,6 +92,14 @@ class User {
     return false;
   }
 
+  setPosition(x, z) {
+    this.userXPos = x;
+    this.userZPos = z;
+  }
+
+  getPosition() {
+    return this.userXPos, this.userZPos;
+  }
 
   render() {
       
