@@ -30,11 +30,8 @@ class GridManager {
     cellToPixels(posX, posZ) {
         const x = (this.cellWidth / 2) + (posX * this.cellWidth);
         const z = (this.cellLength / 2) + (posZ * this.cellLength);
-        console.log(posX, posZ);
-        
-        console.log(x, z);
 
-        return { x, z}
+        return { x, z }
     }
 
     pixelsToCell(posX, posZ) {

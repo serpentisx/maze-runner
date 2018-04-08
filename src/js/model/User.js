@@ -43,37 +43,55 @@ class User {
     }.bind(this));
 
     window.addEventListener("keydown", function (e) {
+
+      const num = document.getElementById('count');
+
+      if (num) {
+        if (e.keyCode === 49 || e.keyCode === 97) { // 1 or numpad 1
+          const count = parseInt(num.innerHTML.match(/\d+/)[0]) - 1;
+          if (count === 0) {
+            document.querySelector('.powerup__item').remove();
+          }
+          else {
+            num.innerHTML = `(${count})x`;
+          }
+
+          // TELEPORT MINITAUR
+
+
+        }
+      }
         
-        if (this.maze.hasLoaded) {
-          let tmpx = this.userXPos;
-          let tmpz = this.userZPos;
+      if (this.maze.hasLoaded) {
+        let tmpx = this.userXPos;
+        let tmpz = this.userZPos;
 
-          switch (e.keyCode) {
-            case 87:	// w
-              tmpx = this.userXPos + this.userIncr * this.userXDir;
-              tmpz = this.userZPos + this.userIncr * this.userZDir;
-              break;
-            case 83:	// s
-              tmpx = this.userXPos - this.userIncr * this.userXDir;
-              tmpz = this.userZPos - this.userIncr * this.userZDir;
-              break;
-            case 65:	// a
-              tmpx = this.userXPos + this.userIncr * this.userZDir;
-              tmpz = this.userZPos - this.userIncr * this.userXDir;
-              break;
-            case 68:	// d
-              tmpx = this.userXPos - this.userIncr * this.userZDir;
-              tmpz = this.userZPos + this.userIncr * this.userXDir;
-              break;
+        switch (e.keyCode) {
+          case 87:	// w
+            tmpx = this.userXPos + this.userIncr * this.userXDir;
+            tmpz = this.userZPos + this.userIncr * this.userZDir;
+            break;
+          case 83:	// s
+            tmpx = this.userXPos - this.userIncr * this.userXDir;
+            tmpz = this.userZPos - this.userIncr * this.userZDir;
+            break;
+          case 65:	// a
+            tmpx = this.userXPos + this.userIncr * this.userZDir;
+            tmpz = this.userZPos - this.userIncr * this.userXDir;
+            break;
+          case 68:	// d
+            tmpx = this.userXPos - this.userIncr * this.userZDir;
+            tmpz = this.userZPos + this.userIncr * this.userXDir;
+            break;
+        }
+
+          const collision = this.collidesWithMaze(tmpx, tmpz);
+
+          if (!collision) {
+            this.userXPos = tmpx;
+            this.userZPos = tmpz;
           }
-
-            const collision = this.collidesWithMaze(tmpx, tmpz);
-
-            if (!collision) {
-              this.userXPos = tmpx;
-              this.userZPos = tmpz;
-            }
-          }
+        }
       
     }.bind(this));
     this.hasLoaded = true;

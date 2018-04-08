@@ -33,8 +33,30 @@ class Teapot extends GameItem {
   handleCollisionWithUser(userX, userZ) {
     const collision = this.checkCollisionWithUser(userX, userZ);
     if (collision) {
+      this.addPoweruptoGame();
       this.isDestroyed = true;
     }
+  }
+
+  addPoweruptoGame() {
+    const div = document.createElement('div');
+    const num = document.getElementById('count');
+
+    if (num) {
+      const count = parseInt(num.innerHTML.match(/\d+/)[0]) + 1;
+      num.innerHTML = `(${count})x`;
+
+      return;
+    }
+
+    div.className = 'powerup__item';
+
+    div.innerHTML =
+      `<img src="/assets/magic-lamp.png" />\
+       <p>Teleport Minotaur</p>\
+       <p id="count">(1x)</p>`
+
+    document.querySelector('.powerup__container').appendChild(div);
   }
 
   render(mv, userX, userZ) {
