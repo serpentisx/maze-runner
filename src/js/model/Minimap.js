@@ -24,12 +24,12 @@ class Minimap extends Maze {
     const r = this.rectangleSize;
 
     return [
-      vec4(x+r, 0, z-r, 1),
-      vec4(x+r, 0, z+r, 1),
-      vec4(x-r, 0, z+r, 1),
-      vec4(x-r, 0, z+r, 1),
-      vec4(x-r, 0, z-r, 1),
-      vec4(x+r, 0, z-r, 1)
+      vec4(x+r, 1, z-r, 1),
+      vec4(x+r, 1, z+r, 1),
+      vec4(x-r, 1, z+r, 1),
+      vec4(x-r, 1, z+r, 1),
+      vec4(x-r, 1, z-r, 1),
+      vec4(x+r, 1, z-r, 1)
     ];
   }
 
