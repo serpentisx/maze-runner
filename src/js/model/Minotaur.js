@@ -14,8 +14,13 @@ class Minotaur extends GameItem {
       vec2(0.0, 0.0),
     ];
 
-    this.hasLoaded = false;
+
     this.path = []; 
+    this.finishedMoving = true;
+    this.direction;
+    this.moves;
+
+    this.hasLoaded = false;
   }
 
   setGrid(grid){
@@ -58,8 +63,8 @@ class Minotaur extends GameItem {
     const x = this.cell[1];
     const z = this.cell[0];
 
-    console.log("user", userPos);
-    console.log("mino", z, x)
+    // console.log("user", userPos);
+    // console.log("mino", z, x)
 
   
     this.stack = [];
@@ -76,6 +81,8 @@ class Minotaur extends GameItem {
           return;
         }
       }
+
+      // This could be optimised by turning it into a SWITCH
       if ((v[0] - 1) >= 0) this.mark(v, [v[0] - 1, v[1]], 'UP');
       if ((v[0] + 1) < this.grid.length) this.mark(v, [v[0] + 1, v[1]], 'DOWN');
       if ((v[1] - 1) >= 0) this.mark(v, [v[0], v[1] - 1], 'LEFT');
@@ -106,6 +113,65 @@ class Minotaur extends GameItem {
 
   getPosition() {
     return { x: this.posX, z: this.posZ };
+  }
+
+  //The minotaur moves in turns, vertical turn is 2.6, horizontal 1.3
+  //When the minotaur has depleted its moves, it calculates the next
+  update(){
+    if(this.moves <= 0) {
+      this.finishedMoving = true;
+    } else {
+      this.moveMinotaur();
+    }
+    if(this.finishedMoving) {
+      this.findNextMove();
+    }
+    
+  }
+
+  moveMinotaur() {
+    const dir = this.direction;
+    switch (dir) {
+      case 'UP':
+        this.posZ -= 0.01;
+        this.moves -= 0.01;
+        break;
+      case 'DOWN':
+        this.posZ += 0.01;
+        this.moves -= 0.01;
+        break;
+      case 'LEFT':
+        this.posX -= 0.01;
+        this.moves -= 0.01;
+        break;
+      case 'RIGHT':
+        this.posZ += 0.01;
+        this.moves -= 0.01;
+        break;
+      default:
+        break;
+    }
+  }
+
+
+  findNextMove(){
+    const currentPos = this.path.pop();
+    const nextPos = this.path[this.path.length-1];
+    if(currentPos[0] > nextPos[0]){
+      this.direction = 'UP';
+      this.moves = 2.6; //hardcoded for length of wall in vertical
+    } else if(currentPos[0] < nextPos[0]) {
+      this.direction = 'DOWN';
+      this.moves = 2.6;
+    } else if(currentPos[1] < nextPos[1]) {
+      this.direction = 'RIGHT';
+      this.moves = 1.3; 
+    } else if(currentPos[1] > nextPos[1]) {
+      this.direction = 'LEFT';
+      this.moves = 1.3;
+    }
+    this.finishedMoving = false;
+    
   }
 
   getPositionMatrix() {

@@ -40,16 +40,15 @@ class GridManager {
     generateGridPosition() {                
        const posX = Math.floor(Math.random() * Math.floor(this.grid[0].length));
        const posZ = Math.floor(Math.random() * Math.floor(this.grid.length));
-       console.log(posZ);
        
        return { posX, posZ };
     }
    
 
     cellToPixels(posX, posZ) {
-        const x = (this.cellWidth / 2) + (posX * this.cellWidth) + this.wallWidth/2;
-        const z = (this.cellLength / 2) + (posZ * this.cellLength);
-
+        let x = (this.cellWidth / 2) + (posX * this.cellWidth);
+        let z = (this.cellLength / 2) + (posZ * this.cellLength);
+        
         return { x, z }
     }
 
@@ -106,9 +105,7 @@ class GridManager {
 
 
     update() {
-        const prev = this.user.cell;
-  //  console.log(prev);
-        
+        const prev = this.user.cell;        
         this.findOnGrid(this.user);
         this.findOnGrid(this.minotaur)
         if(prev[0] !== this.user.cell[0] || prev[1] !== this.user.cell[1]) {            
