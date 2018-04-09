@@ -12,6 +12,8 @@ class Minimap extends Maze {
     this.verticesPoint = [];
 
     this.texBall = generateTexture(this.gl, this.program,  'BallImage');
+    this.texMino = generateTexture(this.gl, this.program,  'MiniMino');
+
     this.initBuffer();
   }
 
@@ -47,8 +49,20 @@ class Minimap extends Maze {
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 
-  render(userX, userZ) {
+  drawMinotaur(gl, x, z) {
+    this.bindBlobBuffer(gl, this.PointBuffer, this.createRectanglePoint(x, z));
+
+    gl.bindTexture(gl.TEXTURE_2D, this.texMino);
+    gl.uniformMatrix4fv(this.mvLoc, false, flatten(this.mv));
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  }
+
+  render(userX, userZ, minotaur) {
     super.render(this.mv);
     this.drawBlob(this.gl, userX, userZ);
+
+    if (minotaur) {
+      this.drawMinotaur(this.gl, minotaur.posX, minotaur.posZ);
+    }
   }
 }
