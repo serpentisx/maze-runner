@@ -15,6 +15,7 @@ class Minotaur extends GameItem {
     ];
 
     this.hasLoaded = false;
+    this.path = []; 
   }
 
   setGrid(grid){
@@ -31,40 +32,57 @@ class Minotaur extends GameItem {
     }
   }
 
-  calculatePath(userPos) {      
-    console.log("user", userPos);
+  calculatePath(userPos) {   
+    this.clearPathGrid();
+    this.traversed = [];
+    this.traverseTree(userPos);    
+    this.setPath(userPos, this.traversed)
+  }    
+
+  setPath(userPos, traversed) {
+    this.path.push(userPos);
+    let find = userPos;
+    for(let i = traversed.length-1; i > 0; i--) {
+      const currentNode = traversed[i][1];
+      const nextNode = traversed[i][0];
+      if(currentNode[0] === find[0] && currentNode[1] === find[1]) {
+       this.path.push(nextNode);
+       find = nextNode;
+      }
+
+
+    }
+  }
+
+  traverseTree(userPos) {
     const x = this.cell[1];
     const z = this.cell[0];
-    console.log("mino", z, x);
 
-    this.clearPathGrid();
-    this.path = [];
+    console.log("user", userPos);
+    console.log("mino", z, x)
+
+  
     this.stack = [];
-    this.stack.push([[null], [z, x]]);        
+    this.stack.push([[null], [z, x]]);
     this.pathGrid[z][x] = true;
-    
-    
-    while (this.stack.length !== 0) {     
-        let prevStack = this.stack.pop();
-        let v = prevStack[1];
-        
-        
-        // console.log(v.length, "vlength");
-        
-        if(v[0] !== null) {          
-          this.path.push(prevStack);
-          if (userPos[0] === v[0] && userPos[1] === v[1]) {
-            console.log("Found");
 
-            return;
-          } 
+    while (this.stack.length !== 0) {
+      let prevStack = this.stack.pop();
+      let v = prevStack[1];
+
+      if (v[0] !== null) {
+        this.traversed.push(prevStack);
+        if (userPos[0] === v[0] && userPos[1] === v[1]) {
+          return;
         }
-        if((v[0]-1) >= 0) this.mark(v, [v[0]-1, v[1]], 'UP');
-        if((v[0]+1) < this.grid.length) this.mark(v, [v[0]+1, v[1]], 'DOWN');
-        if ((v[1] - 1) >= 0) this.mark(v, [v[0], v[1] - 1], 'LEFT');        
-        if ((v[1] + 1) < this.grid[0].length) this.mark(v, [v[0], v[1] + 1], 'RIGHT');
-    }    
-  }    
+      }
+      if ((v[0] - 1) >= 0) this.mark(v, [v[0] - 1, v[1]], 'UP');
+      if ((v[0] + 1) < this.grid.length) this.mark(v, [v[0] + 1, v[1]], 'DOWN');
+      if ((v[1] - 1) >= 0) this.mark(v, [v[0], v[1] - 1], 'LEFT');
+      if ((v[1] + 1) < this.grid[0].length) this.mark(v, [v[0], v[1] + 1], 'RIGHT');
+    }  
+
+  }
 
   mark(currentTile, nextTile, direction) {    
     const z = currentTile[0];
