@@ -21,6 +21,7 @@ class MazeRunner {
 
     this.powerupManager.init();
     this.minotaur.setGrid(this.gridManager.grid);
+    this.minotaur.setUser(this.user);
     this.minotaur.init();
     this.user.init(this.gridManager);
     this.hasLoaded = true;
