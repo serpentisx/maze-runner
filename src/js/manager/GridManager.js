@@ -107,16 +107,25 @@ class GridManager {
 
     update() {
         const prev = this.user.cell;
+  //  console.log(prev);
+        
         this.findOnGrid(this.user);
         this.findOnGrid(this.minotaur)
-        if(prev[0] !== this.user.cell[0] && prev[1] !== this.user.cell[1]) {            
-            this.minotaur.calculatePath(this.user.cell);
-            console.log("done");
-            console.log(this.minotaur.path);
-            
-            
+        if(prev[0] !== this.user.cell[0] || prev[1] !== this.user.cell[1]) {            
+            if (this.isUserOnPath(this.minotaur.path, this.user.cell)) {
+                return;
+            }
+            this.minotaur.calculatePath(this.user.cell);            
         }
     }
+
+    isUserOnPath(path, target){
+        for(let i = 0; i < path.length; i ++) {
+            if(path[i][0] === target[0] && path[i][1] === target[1]) return true;
+        }
+    }
+
+
 
     render() {
     }
