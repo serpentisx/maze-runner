@@ -118,6 +118,8 @@ class Minotaur extends GameItem {
   //The minotaur moves in turns, vertical turn is 2.6, horizontal 1.3
   //When the minotaur has depleted its moves, it calculates the next
   update(){
+    console.log(this.posZ, this.posX);
+    
     if(this.moves <= 0) {
       this.finishedMoving = true;
     } else {
@@ -145,7 +147,7 @@ class Minotaur extends GameItem {
         this.moves -= 0.01;
         break;
       case 'RIGHT':
-        this.posZ += 0.01;
+        this.posX += 0.01;
         this.moves -= 0.01;
         break;
       default:
