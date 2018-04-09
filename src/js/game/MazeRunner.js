@@ -30,6 +30,7 @@ class MazeRunner {
     this.powerupManager.update();
     if(!this.gridManager.hasLoaded) return;
     this.gridManager.update();
+    this.minotaur.update();
     
   }
 
