@@ -115,19 +115,21 @@ class GridManager {
         }
     }
 
-    update() {
-       this.checkIfEntitiesShareCell();
-
-
-        const prev = this.user.cell;        
-        this.setEntityOnGrid(this.user);
-        this.setEntityOnGrid(this.minotaur)
-        if(prev[0] !== this.user.cell[0] || prev[1] !== this.user.cell[1]) {            
+    isPlayerOnPath(prevCell) {
+        if (prevCell[0] !== this.user.cell[0] || prevCell[1] !== this.user.cell[1]) {
             if (this.isUserOnPath(this.minotaur.path, this.user.cell)) {
                 return;
             }
-            this.minotaur.calculatePath(this.user.cell);            
+            this.minotaur.calculatePath(this.user.cell);
         }
+    }
+
+    update() {
+       this.checkIfEntitiesShareCell();
+        const prev = this.user.cell;        
+        this.setEntityOnGrid(this.user);
+        this.setEntityOnGrid(this.minotaur)
+        this.isPlayerOnPath(prev);
     }
 
     isUserOnPath(path, target){
