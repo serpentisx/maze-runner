@@ -51,6 +51,7 @@ class User {
       this.handleTeleport(e);
       this.handleMovement(e);
       this.handleShowMinotaur(e);
+
     }.bind(this));
 
     this.hasLoaded = true;
@@ -165,6 +166,18 @@ class User {
     return false;
   }
 
+  checkIsGameOver() {
+    const gameOver = Utils.pointInsideRectangle({
+      x: this.userXPos,
+      y: this.userZPos
+    }, [[0, -0.3], [this.maze.wallLength, 0]], 0);
+
+    if (gameOver) {
+      document.getElementById('menu').style.display = 'block';
+      gameManager.gameOver();
+    }
+  }
+
   render() {
     const minotaur = this.checkIsShowingMinotaur();
       
@@ -173,6 +186,8 @@ class User {
     
     this.mazeGl.uniformMatrix4fv(mvLoc, false, flatten(mazeMv));
     this.minimapGl.uniformMatrix4fv(mvLoc_mini, false, flatten(miniMv));
+
+    this.checkIsGameOver();
 
     return { mazeMv, miniMv, userXPos: this.userXPos, userZPos: this.userZPos, minotaur };
   }
