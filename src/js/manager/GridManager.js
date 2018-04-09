@@ -15,6 +15,10 @@ class GridManager {
         this.hasLoaded = true;
     }
 
+    /* Generates a random cell positions, checks first to see whether 
+    * it is occupied by the minotaur, if not, set user coordinates
+    * and cell position
+    */
     generateUserPos() {
         const { posX, posZ } = this.generateGridPosition();
         if (posX === this.minotaur.cell[1] && posZ === this.minotaur.cell[0]) {
@@ -96,18 +100,28 @@ class GridManager {
         return temp;
     }
 
-    findOnGrid(entity) {
+    setEntityOnGrid(entity) {
         const { x, z } = entity.getPosition();        
         const { gridX, gridZ } = this.pixelsToCell(x, z);
         
         entity.cell = [gridZ, gridX];
     }
 
+    checkIfEntitiesShareCell() {
+        const user = this.user.cell;
+        const minotaur = this.minotaur.cell;
+        if(user[0] === minotaur[0] && user[1] === minotaur[1]) {
+            this.generateUserPos();
+        }
+    }
 
     update() {
+       this.checkIfEntitiesShareCell();
+
+
         const prev = this.user.cell;        
-        this.findOnGrid(this.user);
-        this.findOnGrid(this.minotaur)
+        this.setEntityOnGrid(this.user);
+        this.setEntityOnGrid(this.minotaur)
         if(prev[0] !== this.user.cell[0] || prev[1] !== this.user.cell[1]) {            
             if (this.isUserOnPath(this.minotaur.path, this.user.cell)) {
                 return;
