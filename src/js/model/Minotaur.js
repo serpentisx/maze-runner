@@ -23,7 +23,6 @@ class Minotaur extends GameItem {
 
   calculatePath(userPos) {
     console.log(userPos);
-    
   }
 
   setPosition(x, z) {

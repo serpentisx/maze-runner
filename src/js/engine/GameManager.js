@@ -20,7 +20,9 @@ class GameManager {
     this.updateClocks(frameTime);
     this.iterCore(this.frameTimeDelta_ms);
 
-    if (!this.isGameOver) this.requestNextIteration();
+    if (!this.isGameOver) {
+      this.requestNextIteration();
+    }
   }
 
   updateClocks(frameTime) {
@@ -47,10 +49,6 @@ class GameManager {
 
   requestedQuit() {
     return this.isGameOver;
-  }
-
-  mainIterFrame(frameTime) {
-    this.iter(frameTime);
   }
 
   mainIterFrame(frameTime) {
