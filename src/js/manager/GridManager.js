@@ -38,7 +38,7 @@ class GridManager {
             return;
         }
         this.minotaur.setPosition(x, z);
-        this.minotaur.cell = [posZ, posX] ;
+        this.minotaur.cell = [posZ, posX];
     }
 
     generateGridPosition() {                

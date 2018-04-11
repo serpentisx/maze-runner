@@ -43,6 +43,7 @@ class Minotaur extends GameItem {
 
   calculatePath(userPos) {   
     this.clearPathGrid();
+    this.path = [];
     this.traversed = [];
     this.traverseTree(userPos);    
     this.setPath(userPos, this.traversed)
@@ -51,6 +52,8 @@ class Minotaur extends GameItem {
 
   setPath(userPos, traversed) {
     this.path.push(userPos);
+    console.log(userPos);
+    
     let find = userPos;
     for(let i = traversed.length-1; i > 0; i--) {
       const currentNode = traversed[i][1];
@@ -154,12 +157,16 @@ class Minotaur extends GameItem {
 
   findNextMove(){
     const currentPos = this.path.pop();
-    //if the currentPosition in the path stack is not equal to the minotuars cell 
+    console.log("current path", currentPos);
+    console.log("current cell" , this.cell);
+    
+    // if the currentPosition in the path stack is not equal to the minotuars cell 
     // position, recalculate from current position
-    if(currentPos[0] !== this.cell[0] && currentPos[1] !== this.cell[1]) {
-      this.calculatePath([this.user.userZPos, this.user.userXPos])
+    if(currentPos[0] !== this.cell[0] || currentPos[1] !== this.cell[1]) { 
+      console.log("Here");
+           
+      this.calculatePath(this.user.cell)
       return;
-      
     }
     const nextPos = this.path[this.path.length-1];
     if(currentPos[0] > nextPos[0]){
