@@ -9,7 +9,7 @@ class GridManager {
     }
 
     init (maze) {            
-        this.grid = this.constructGrid(maze, this.gridDimensions(maze));   
+        this.grid = this.constructGrid(maze, this.gridDimensions(maze));           
         this.generateMinotaurPos();
         this.generateUserPos()
         this.hasLoaded = true;
@@ -124,22 +124,17 @@ class GridManager {
         }
     }
 
-    update() {
-       this.checkIfEntitiesShareCell();
-        const prev = this.user.cell;        
-        this.setEntityOnGrid(this.user);
-        this.setEntityOnGrid(this.minotaur)
-        this.isPlayerOnPath(prev);
-    }
-
     isUserOnPath(path, target){
         for(let i = 0; i < path.length; i ++) {
             if(path[i][0] === target[0] && path[i][1] === target[1]) return true;
         }
     }
 
-
-
-    render() {
+    update() {
+        this.checkIfEntitiesShareCell();
+        const prev = this.user.cell;
+        this.setEntityOnGrid(this.user);
+        this.setEntityOnGrid(this.minotaur)
+        this.isPlayerOnPath(prev);
     }
 }

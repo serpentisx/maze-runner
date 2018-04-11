@@ -98,6 +98,7 @@ class Minotaur extends GameItem {
     const x = currentTile[1];
     const nZ = nextTile[0];
     const nX = nextTile[1];    
+    console.log(this.grid);
     
     for(let i = 0; i < this.grid[z][x].length; i ++ ) {       
       if (this.grid[z][x][i] === direction && !this.pathGrid[nZ][nX]) {        

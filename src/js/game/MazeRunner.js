@@ -17,8 +17,7 @@ class MazeRunner {
   async init() {
     await this.maze.init('maze.txt');
     this.minimap.init('maze.txt');
-    this.gridManager.init(this.maze.mazeArray);
-
+    this.gridManager.init(this.maze.mazeArray);     
     this.powerupManager.init();
     this.minotaur.setGrid(this.gridManager.grid);
     this.minotaur.setUser(this.user);
