@@ -157,9 +157,7 @@ class Minotaur extends GameItem {
 
   findNextMove(){
     const currentPos = this.path.pop();
-    console.log("current path", currentPos);
-    console.log("current cell" , this.cell);
-    
+
     // if the currentPosition in the path stack is not equal to the minotuars cell 
     // position, recalculate from current position
     if(currentPos[0] !== this.cell[0] || currentPos[1] !== this.cell[1]) { 
