@@ -9,10 +9,6 @@ const KEYS = {
   32: 'space'
 };
 
-const KEY_A = 'A'.charCodeAt(0);
-const KEY_D = 'D'.charCodeAt(0);
-const KEY_W = 'W'.charCodeAt(0);
-
 // Map building
 const KEY_1 = '1'.charCodeAt(0);
 const KEY_2 = '2'.charCodeAt(0);

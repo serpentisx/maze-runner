@@ -10,7 +10,7 @@ class User {
     this.mazeGl = gl;
     this.minimapGl = gl_mini;
 
-    this.userIncr = 0.1;                // Size of forward/backward step
+    this.userIncr = 0.06;                // Size of forward/backward step
     this.userAngle = 270.0;             // Direction of the user in degrees
     this.userXDir = 0.0;                // X-coordinate of heading
     this.userZDir = -1.0;               // Z-coordinate of heading
@@ -49,7 +49,6 @@ class User {
 
     window.addEventListener("keydown", function (e) {
       this.handleTeleport(e);
-      this.handleMovement(e);
       this.handleShowMinotaur(e);
 
     }.bind(this));
@@ -59,28 +58,30 @@ class User {
 
   handleMovement(e) {
     if (this.maze.hasLoaded) {
+
       let tmpx = this.userXPos;
       let tmpz = this.userZPos;
 
-      switch (e.keyCode) {
-        case 87:	// w
-          tmpx = this.userXPos + this.userIncr * this.userXDir;
-          tmpz = this.userZPos + this.userIncr * this.userZDir;
-          break;
-        case 83:	// s
-          tmpx = this.userXPos - this.userIncr * this.userXDir;
-          tmpz = this.userZPos - this.userIncr * this.userZDir;
-          break;
-        case 65:	// a
-          tmpx = this.userXPos + this.userIncr * this.userZDir;
-          tmpz = this.userZPos - this.userIncr * this.userXDir;
-          break;
-        case 68:	// d
-          tmpx = this.userXPos - this.userIncr * this.userZDir;
-          tmpz = this.userZPos + this.userIncr * this.userXDir;
-          break;
+      if (keys[KEY_W]) {
+        tmpx = this.userXPos + this.userIncr * this.userXDir;
+        tmpz = this.userZPos + this.userIncr * this.userZDir;
       }
-
+      
+      if (keys[KEY_S]) {
+        tmpx = this.userXPos - this.userIncr * this.userXDir;
+        tmpz = this.userZPos - this.userIncr * this.userZDir;
+      }
+      
+      if (keys[KEY_A]) {
+        tmpx = this.userXPos + this.userIncr * this.userZDir;
+        tmpz = this.userZPos - this.userIncr * this.userXDir;
+      }
+      
+      if (keys[KEY_D]) {
+        tmpx = this.userXPos - this.userIncr * this.userZDir;
+        tmpz = this.userZPos + this.userIncr * this.userXDir;
+      }
+  
       const collision = this.collidesWithMaze(tmpx, tmpz);
 
       if (!collision) {
@@ -179,6 +180,8 @@ class User {
   }
 
   render() {
+    this.handleMovement();
+
     const minotaur = this.checkIsShowingMinotaur();
       
     const mazeMv = lookAt(vec3(this.userXPos, 0.5, this.userZPos), vec3(this.userXPos + this.userXDir, 0.5, this.userZPos + this.userZDir), vec3(0.0, 1.0, 0.0));
