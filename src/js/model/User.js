@@ -10,7 +10,7 @@ class User {
     this.mazeGl = gl;
     this.minimapGl = gl_mini;
 
-    this.userIncr = 0.06;                // Size of forward/backward step
+    this.userIncr = 0.04;                // Size of forward/backward step
     this.userAngle = 270.0;             // Direction of the user in degrees
     this.userXDir = 0.0;                // X-coordinate of heading
     this.userZDir = -1.0;               // Z-coordinate of heading
